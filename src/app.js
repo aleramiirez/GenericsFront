@@ -38,7 +38,6 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 app.get('/index', (req, res) => {
-  // Verificar si está autenticado
   //authToken = loginWithJwt();
   if (authToken) {
     res.render('index');
@@ -254,23 +253,6 @@ app.post('/getUser', async (req, res) => {
   }
 });
 
-
-
-function generateAccessToken (user) {
-  return jwt.sign(user, KEY);
-}
-function validateToken (req, res, next) {
-  const accessToken = req.header["authorization"];
-  if(!accessToken) res.send("Acceso limitado")
-
-  jwt.verify(accessToken, KEY, (err, user) => {
-    if(err) {
-      res.send("Acceso limitado, o token incorrecto")
-    } else {
-      next();
-    }
-  });
-}
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/index");
