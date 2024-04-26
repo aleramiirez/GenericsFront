@@ -100,6 +100,7 @@ app.post('/register', async (req, res) => {
     };
 
     // Llamar a la API de SpringBoot para crear el usuario
+<<<<<<< HEAD
     const response = await axios.post(`${API_URL}/crear`, newUser, {
       headers: {
         Authorization: `Bearer ${authToken}`
@@ -110,6 +111,18 @@ app.post('/register', async (req, res) => {
     if (response.status === 201) {
       res.redirect('/index');
     } else {
+=======
+    const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
+
+    // Verificar si se creó correctamente
+    if (response.status === 200) {
+      authToken = await loginWithJwt(newUser.correo, newUser.contrasena);
+      if (authToken) {
+        res.redirect('/index');
+      } else {
+        throw new Error('Token JWT no recibido');
+      }    } else {
+>>>>>>> feature-dilior
       res.status(500).send('Error al crear el usuario');
     }
   } catch (error) {
