@@ -69,6 +69,122 @@ app.post('/auth', async (req, res) => {
   });
 });
 
+//Crear un usuario nuevo
+app.post('/createUser', async (req, res) => {
+  try {
+    // Obtener los datos del formulario desde el cuerpo de la solicitud
+    const { firstName, lastName, age, email, address, mobile, password } = req.body;
+
+    // Crear un objeto con los datos del nuevo usuario
+    const newUser = {
+      nombre: firstName,
+      apellidos: lastName,
+      edad: age,
+      correo: email,
+      direccion: address,
+      telefono: mobile,
+      contrasena: password
+    };
+
+    // Llamar a la API de SpringBoot para crear el usuario
+    const response = await axios.post(`${API_URL}/crear`, newUser);
+
+    // Verificar si se creó correctamente
+    if (response.status === 201) {
+      res.redirect('/create');
+    } else {
+      res.status(500).send('Error al crear el usuario');
+    }
+  } catch (error) {
+    console.error('Error:', error.response ? error.response.data : error.message);
+    
+    if (error.response) {
+      if (error.response.status === 500) {
+        res.status(500).send('Error interno del servidor');
+      } else {
+        res.status(500).send('Error inesperado');
+      }
+    } else {
+      res.status(500).send('Error inesperado');
+    }
+  }
+});
+
+// Modificar un usuario
+app.post('/editUser', async (req, res) => {
+  try {
+    const email = req.body.email;
+    
+    // Obtener los datos del formulario desde el cuerpo de la solicitud
+    const { firstName, lastName, age, address, mobile } = req.body;
+
+    // Crear un objeto con los datos actualizados del usuario
+    const updatedUser = {
+      nombre: firstName,
+      apellidos: lastName,
+      edad: age,
+      direccion: address,
+      telefono: mobile,
+    };
+
+    // Llamar a la API de SpringBoot para editar el usuario
+    const response = await axios.put(`${API_URL}/editar/${email}`, updatedUser);
+
+    // Verificar si se editó correctamente
+    if (response.status === 200) {
+      res.redirect('/edite');
+    } else {
+      res.status(500).send('Error al editar el usuario');
+    }
+  } catch (error) {
+    console.error('Error:', error.response ? error.response.data : error.message);
+    
+    if (error.response) {
+      if (error.response.status === 500) {
+        res.status(500).send('Error interno del servidor');
+      } else {
+        res.status(500).send('Error inesperado');
+      }
+    } else {
+      res.status(500).send('Error inesperado');
+    }
+  }
+});
+
+
+// Eliminar usuario por correo
+app.post('/deleteUser', async (req, res) => {
+  try {
+    const email = req.body.email;
+
+    // Llamar a la API de SpringBoot para eliminar el usuario
+    const response = await axios.delete(`${API_URL}/borrar/${email}`);
+
+    // Verificar si se eliminó correctamente
+    if (response.status === 200) {
+      res.redirect('/delete');
+    } else {
+      res.status(500).send('Error al eliminar el usuario');
+    }
+    
+  } catch (error) {
+    console.error('Error:', error.response ? error.response.data : error.message);
+    
+    if (error.response) {
+      if (error.response.status === 404) {
+        res.status(404).send('Usuario no encontrado');
+      } else if (error.response.status === 500) {
+        res.status(500).send('Error interno del servidor');
+      } else {
+        res.status(500).send('Error inesperado');
+      }
+    } else {
+      res.status(500).send('Error inesperado');
+    }
+  }
+});
+
+
 function generateAccessToken (user) {
   return jwt.sign(user, KEY);
 }
@@ -85,8 +201,9 @@ function validateToken (req, res, next) {
   });
 }
 
+
 // Start server
 app.listen(PORT, (reg, res) => {
-  console.log("Server host is http://localhost:"+PORT);
+  console.log("Server host is http://localhost:"+PORT + "/index");
   console.log("API URL is " + API_URL);
 })
