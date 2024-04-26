@@ -38,16 +38,16 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 app.get('/index', (req, res) => {
-<<<<<<< HEAD
+
   res.render('index');
-=======
+
   //authToken = loginWithJwt();
   if (authToken) {
     res.render('index');
   } else {
     res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
   }
->>>>>>> feature-dilior
+
 });
 app.get("/create", (reg, res) => {
   res.render("create");
