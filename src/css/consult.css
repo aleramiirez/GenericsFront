@@ -16,8 +16,14 @@
   animation: gradient 5s ease infinite;
 }
 
-.consult {
+.content {
+	min-width: 80%;
+}
 
+.consult {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 @keyframes gradient {
