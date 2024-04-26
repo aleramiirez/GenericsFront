@@ -229,8 +229,6 @@ app.post('/deleteUser', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-=======
 // Consultar un usuario por su correo
 app.post('/getUser', async (req, res) => {
   try {
@@ -273,9 +271,6 @@ function validateToken (req, res, next) {
     }
   });
 }
-
-
->>>>>>> c552a91431b319904ae5ef89981a87df8e2c4aa6
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/index");
