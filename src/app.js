@@ -33,17 +33,19 @@ app.use(expressSession({
   saveUninitialized:true
 }))
 
-const API_URL="http://localhost:8080/api/v1/usuarios"
-const PORT="3000"
-const KEY="lMCvj7Sirkk41OpuXDBKoSA1YeQ4aTeHmP4gzoyoaLk="
-
 // establacer las rutas
 app.get('/login', (req, res) => {
   res.render('login');
 });
-app.get("/index", (reg, res) => {
-  res.render("index");
-})
+app.get('/index', (req, res) => {
+  // Verificar si está autenticado
+  //authToken = loginWithJwt();
+  if (authToken) {
+    res.render('index');
+  } else {
+    res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
+  }
+});
 app.get("/create", (reg, res) => {
   res.render("create");
 })
@@ -57,17 +59,53 @@ app.get("/delete", (reg, res) => {
   res.render("delete");
 })
 
+
+const API_URL="http://localhost:8080/api/v1/usuarios"
+const PORT="3000"
+
+const JWT_SECRET="lMCvj7Sirkk41OpuXDBKoSA1YeQ4aTeHmP4gzoyoaLk="
+const JWT_URL="http://localhost:8080/auth/login"
+let authToken;
+
+// Endpoint para autenticar y obtener el token JWT
 app.post('/auth', async (req, res) => {
-  const {email, password } = req.body;
-  const user = {email: email, password: password};
+  try {
+    const { correo, contrasena } = req.body;
+    authToken = await loginWithJwt(correo, contrasena);
 
-  const accessToken = generateAccessToken(user);
-
-  res.header("authorization", accessToken).json({
-    message: "Todo bien",
-    token: accessToken
-  });
+    if (authToken) {
+      res.redirect('/index');
+    } else {
+      throw new Error('Token JWT no recibido');
+    }
+  } catch (error) {
+    console.error('Error al autenticar:', error.message);
+    res.status(500).send('Error al autenticar: ' + error.message);
+  }
 });
+// Método para iniciar sesión con JWT
+async function loginWithJwt(correo, contrasena) {
+  try {
+    const response = await axios.post(JWT_URL, {
+      correo: correo,
+      contrasena: contrasena
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': JWT_SECRET
+      }
+    });
+
+    if (response.status === 200) {
+      authToken = response.data.token;
+      return authToken;
+    } else {
+      throw new Error('Failed to login with JWT');
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
 //Crear un usuario nuevo
 app.post('/createUser', async (req, res) => {
@@ -151,14 +189,21 @@ app.post('/editUser', async (req, res) => {
   }
 });
 
-
 // Eliminar usuario por correo
 app.post('/deleteUser', async (req, res) => {
   try {
     const email = req.body.email;
 
+    if (!authToken) {
+      return res.status(401).send('No autorizado. Por favor, autentícate primero.');
+    }
+
     // Llamar a la API de SpringBoot para eliminar el usuario
-    const response = await axios.delete(`${API_URL}/borrar/${email}`);
+    const response = await axios.delete(`${API_URL}/borrar/${email}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
 
     // Verificar si se eliminó correctamente
     if (response.status === 200) {
@@ -183,24 +228,6 @@ app.post('/deleteUser', async (req, res) => {
     }
   }
 });
-
-
-function generateAccessToken (user) {
-  return jwt.sign(user, KEY);
-}
-function validateToken (req, res, next) {
-  const accessToken = req.header["authorization"];
-  if(!accessToken) res.send("Acceso limitado")
-
-  jwt.verify(accessToken, KEY, (err, user) => {
-    if(err) {
-      res.send("Acceso limitado, o token incorrecto")
-    } else {
-      next();
-    }
-  });
-}
-
 
 // Start server
 app.listen(PORT, (reg, res) => {
