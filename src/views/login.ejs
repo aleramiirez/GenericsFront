@@ -22,9 +22,8 @@
   <body>
     <div class="wrapper">
       <div class="content">
-        <header></header>
         <main>
-          <div class="main" action="/auth" method="post">
+          <div class="main">
             <input type="checkbox" id="chk" aria-hidden="true" />
             <div class="login">
               <div class="form">
@@ -33,23 +32,23 @@
                   <input
                     class="input"
                     type="email"
-                    name="email"
+                    name="correo" 
                     placeholder="Email"
                     required
                   />
                   <input
                     class="input"
                     type="password"
-                    name="password"
+                    name="contrasena" 
                     placeholder="Password"
                     required
                   />
-                  <button>Log in</button>
+                  <button type="submit">Log in</button> <!-- Agregado type="submit" -->
                 </form>
               </div>
             </div>
-
-            <div class="register" action="/register" method="post">
+    
+            <div class="register">
               <div class="form">
                 <label for="chk" aria-hidden="true">Register</label>
                 <form action="/register" method="post">
@@ -74,7 +73,7 @@
                     placeholder="Password"
                     required
                   />
-                  <button>Register</button>
+                  <button type="submit">Register</button> <!-- Agregado type="submit" -->
                 </form>
               </div>
             </div>
@@ -82,6 +81,7 @@
         </main>
         <footer></footer>
       </div>
+    </div>
     </div>
   </body>
 </html>

@@ -38,12 +38,16 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 app.get('/index', (req, res) => {
+<<<<<<< HEAD
+  res.render('index');
+=======
   //authToken = loginWithJwt();
   if (authToken) {
     res.render('index');
   } else {
     res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
   }
+>>>>>>> feature-dilior
 });
 app.get("/create", (reg, res) => {
   res.render("create");
@@ -71,20 +75,20 @@ app.post('/auth', async (req, res) => {
   try {
     const { correo, contrasena } = req.body;
     authToken = await loginWithJwt(correo, contrasena);
-
     if (authToken) {
       res.redirect('/index');
     } else {
       throw new Error('Token JWT no recibido');
     }
   } catch (error) {
-    console.error('Error al autenticar:', error.message);
+    console.error('Error al autenticar:', error.message,);
     res.status(500).send('Error al autenticar: ' + error.message);
   }
 });
 // Método para iniciar sesión con JWT
 async function loginWithJwt(correo, contrasena) {
   try {
+    console.log(correo, contrasena)
     const response = await axios.post(JWT_URL, {
       correo: correo,
       contrasena: contrasena
@@ -97,6 +101,7 @@ async function loginWithJwt(correo, contrasena) {
 
     if (response.status === 200) {
       authToken = response.data.token;
+      console.log(authToken)
       return authToken;
     } else {
       throw new Error('Failed to login with JWT');
@@ -193,10 +198,11 @@ app.post('/deleteUser', async (req, res) => {
   try {
     const email = req.body.email;
 
+    // Llamar a la API de SpringBoot para eliminar el usuario
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
-
+ 
     // Llamar a la API de SpringBoot para eliminar el usuario
     const response = await axios.delete(`${API_URL}/borrar/${email}`, {
       headers: {
@@ -255,6 +261,6 @@ app.post('/getUser', async (req, res) => {
 
 // Start server
 app.listen(PORT, (reg, res) => {
-  console.log("Server host is http://localhost:"+PORT + "/index");
+  console.log("Server host is http://localhost:"+PORT + "/login");
   console.log("API URL is " + API_URL);
 })
