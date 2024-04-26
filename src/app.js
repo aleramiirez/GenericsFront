@@ -229,6 +229,48 @@ app.post('/deleteUser', async (req, res) => {
   }
 });
 
+// Consultar un usuario por su correo
+app.post('/getUser', async (req, res) => {
+  try {
+    const email = req.body.email;
+
+    // Llamar a la API de SpringBoot para buscar el usuario por su correo electrónico
+    const response = await axios.get(`${API_URL}/user/${email}`);
+
+    const userData = response.data;
+
+    // Verificar si se encontraron datos del usuario
+    if (userData) {
+      // Enviar los datos del usuario al frontend
+      res.status(200).json(userData);
+    } else {
+      // Si no se encontró el usuario, enviar un mensaje de error
+      res.status(404).send('Usuario no encontrado');
+    }
+  } catch (error) {
+    // Manejar cualquier error
+    console.error('Error:', error.response ? error.response.data : error.message);
+    res.status(500).send('Error interno del servidor');
+  }
+});
+
+
+
+function generateAccessToken (user) {
+  return jwt.sign(user, KEY);
+}
+function validateToken (req, res, next) {
+  const accessToken = req.header["authorization"];
+  if(!accessToken) res.send("Acceso limitado")
+
+  jwt.verify(accessToken, KEY, (err, user) => {
+    if(err) {
+      res.send("Acceso limitado, o token incorrecto")
+    } else {
+      next();
+    }
+  });
+}
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/index");
