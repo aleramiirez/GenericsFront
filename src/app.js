@@ -69,7 +69,6 @@ app.post('/auth', async (req, res) => {
   });
 });
 
-<<<<<<< HEAD
 //Crear un usuario nuevo
 app.post('/createUser', async (req, res) => {
   try {
@@ -185,7 +184,7 @@ app.post('/deleteUser', async (req, res) => {
   }
 });
 
-=======
+
 function generateAccessToken (user) {
   return jwt.sign(user, KEY);
 }
@@ -201,7 +200,7 @@ function validateToken (req, res, next) {
     }
   });
 }
->>>>>>> feature-dilior
+
 
 // Start server
 app.listen(PORT, (reg, res) => {
