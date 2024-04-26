@@ -38,23 +38,12 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 app.get('/index', (req, res) => {
-<<<<<<< HEAD
-
-  res.render('index');
-
-  //authToken = loginWithJwt();
-=======
     //authToken = loginWithJwt();
->>>>>>> origin/feature-dilior
   if (authToken) {
     res.render('index');
   } else {
     res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/feature-dilior
 });
 app.get("/create", (reg, res) => {
     //authToken = loginWithJwt();
@@ -94,6 +83,50 @@ const JWT_URL="http://localhost:8080/auth/login"
 let authToken;
 
 // Endpoint para autenticar y obtener el token JWT
+app.post('/register', async (req, res) => {
+  try {
+    // Obtener los datos del formulario desde el cuerpo de la solicitud
+    const { firstName, lastName, age, email, address, mobile, password } = req.body;
+
+    // Crear un objeto con los datos del nuevo usuario
+    const newUser = {
+      nombre: firstName,
+      apellidos: lastName,
+      edad: age,
+      correo: email,
+      direccion: address,
+      telefono: mobile,
+      contrasena: password
+    };
+
+    // Llamar a la API de SpringBoot para crear el usuario
+    const response = await axios.post(`${API_URL}/crear`, newUser, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
+
+    // Verificar si se creó correctamente
+    if (response.status === 201) {
+      res.redirect('/index');
+    } else {
+      res.status(500).send('Error al crear el usuario');
+    }
+  } catch (error) {
+    console.error('Error:', error.response ? error.response.data : error.message);
+    
+    if (error.response) {
+      if (error.response.status === 500) {
+        res.status(500).send('Error interno del servidor');
+      } else {
+        res.status(500).send('Error inesperado');
+      }
+    } else {
+      res.status(500).send('Error inesperado');
+    }
+  }
+});
+
 app.post('/auth', async (req, res) => {
   try {
     const { correo, contrasena } = req.body;
