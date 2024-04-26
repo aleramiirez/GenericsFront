@@ -38,29 +38,41 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 app.get('/index', (req, res) => {
-<<<<<<< HEAD
-  res.render('index');
-=======
-  //authToken = loginWithJwt();
+    //authToken = loginWithJwt();
   if (authToken) {
     res.render('index');
   } else {
     res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
   }
->>>>>>> feature-dilior
 });
 app.get("/create", (reg, res) => {
-  res.render("create");
-})
+    //authToken = loginWithJwt();
+    if (authToken) {
+      res.render('create');
+    } else {
+      res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
+    }})
 app.get("/edite", (reg, res) => {
-  res.render("edite");
-})
+    //authToken = loginWithJwt();
+    if (authToken) {
+      res.render('edite');
+    } else {
+      res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
+    }})
 app.get("/consult", (reg, res) => {
-  res.render("consult");
-})
+    //authToken = loginWithJwt();
+    if (authToken) {
+      res.render('consult');
+    } else {
+      res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
+    }})
 app.get("/delete", (reg, res) => {
-  res.render("delete");
-})
+    //authToken = loginWithJwt();
+    if (authToken) {
+      res.render('delete');
+    } else {
+      res.status(401).send('No autorizado. Por favor, inicie sesión primero.');
+    }})
 
 
 const API_URL="http://localhost:8080/api/v1/usuarios"
@@ -71,6 +83,50 @@ const JWT_URL="http://localhost:8080/auth/login"
 let authToken;
 
 // Endpoint para autenticar y obtener el token JWT
+app.post('/register', async (req, res) => {
+  try {
+    // Obtener los datos del formulario desde el cuerpo de la solicitud
+    const { firstName, lastName, age, email, address, mobile, password } = req.body;
+
+    // Crear un objeto con los datos del nuevo usuario
+    const newUser = {
+      nombre: firstName,
+      apellidos: lastName,
+      edad: age,
+      correo: email,
+      direccion: address,
+      telefono: mobile,
+      contrasena: password
+    };
+
+    // Llamar a la API de SpringBoot para crear el usuario
+    const response = await axios.post(`${API_URL}/crear`, newUser, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
+
+    // Verificar si se creó correctamente
+    if (response.status === 201) {
+      res.redirect('/index');
+    } else {
+      res.status(500).send('Error al crear el usuario');
+    }
+  } catch (error) {
+    console.error('Error:', error.response ? error.response.data : error.message);
+    
+    if (error.response) {
+      if (error.response.status === 500) {
+        res.status(500).send('Error interno del servidor');
+      } else {
+        res.status(500).send('Error inesperado');
+      }
+    } else {
+      res.status(500).send('Error inesperado');
+    }
+  }
+});
+
 app.post('/auth', async (req, res) => {
   try {
     const { correo, contrasena } = req.body;
@@ -128,8 +184,16 @@ app.post('/createUser', async (req, res) => {
       contrasena: password
     };
 
+    if (!authToken) {
+      return res.status(401).send('No autorizado. Por favor, autentícate primero.');
+    }
+
     // Llamar a la API de SpringBoot para crear el usuario
-    const response = await axios.post(`${API_URL}/crear`, newUser);
+    const response = await axios.post(`${API_URL}/crear`, newUser, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
 
     // Verificar si se creó correctamente
     if (response.status === 201) {
@@ -169,8 +233,16 @@ app.post('/editUser', async (req, res) => {
       telefono: mobile,
     };
 
+    if (!authToken) {
+      return res.status(401).send('No autorizado. Por favor, autentícate primero.');
+    }
+
     // Llamar a la API de SpringBoot para editar el usuario
-    const response = await axios.put(`${API_URL}/editar/${email}`, updatedUser);
+    const response = await axios.put(`${API_URL}/editar/${email}`, updatedUser, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
 
     // Verificar si se editó correctamente
     if (response.status === 200) {
@@ -239,8 +311,16 @@ app.post('/getUser', async (req, res) => {
   try {
     const email = req.body.email;
 
+    if (!authToken) {
+      return res.status(401).send('No autorizado. Por favor, autentícate primero.');
+    }
+
     // Llamar a la API de SpringBoot para buscar el usuario por su correo electrónico
-    const response = await axios.get(`${API_URL}/user/${email}`);
+    const response = await axios.get(`${API_URL}/user/${email}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
 
     const userData = response.data;
 
