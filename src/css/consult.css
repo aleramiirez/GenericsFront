@@ -3,21 +3,26 @@
   background: linear-gradient(#ffffff, #ffffff) padding-box,
               linear-gradient(145deg, transparent 35%,#e81cff, #40c9ff) border-box;
   border: 2px solid transparent;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 20px #0000001a;
   padding: 32px 24px;
   font-size: 14px;
-  color: white;
+  color:  #ffffff;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  box-sizing: border-box;
   border-radius: 16px;
   background-size: 200% 100%;
   animation: gradient 5s ease infinite;
 }
 
-.consult {
+.content {
+	min-width: 80%;
+}
 
+.consult {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 @keyframes gradient {
@@ -43,9 +48,7 @@
   flex-direction: column;
   gap: 20px;
 }
-.form {
-  font-family: monospace;
-}
+
 .form h1 {
   text-align: center;
 }
@@ -67,7 +70,7 @@
   width: 100%;
   padding: 12px 16px;
   border-radius: 8px;
-  color: #000000;
+  color: #2d2d2d;
   background-color: transparent;
   border: 1px solid #414141;
 }
@@ -77,7 +80,7 @@
   padding: 12px 16px;
   border-radius: 8px;
   resize: none;
-  color: #fff;
+  color: #ffffff;
   height: 96px;
   border: 1px solid #414141;
   background-color: transparent;
@@ -102,7 +105,7 @@
   align-items: flex-start;
   justify-content: center;
   align-self: center;
-  color: #000000;
+  color: #2d2d2d;
   font-weight: 900;
   width: 40%;
   background: #ffffff;
@@ -111,14 +114,15 @@
   font-size: inherit;
   gap: 8px;
   margin-top: 8px;
-  cursor: pointer;
+  cursor: pointer;  
   border-radius: 6px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 10px #0000001a;
 }
 
 .form-container .form-submit-btn:hover {
-  background-color: #e81cff;
+  background-color: #40c9ff;
   border-color: #414141;
+  color: #ffffff;
 }
 
 
