@@ -33,13 +33,16 @@ app.use(expressSession({
   resave:true,
   saveUninitialized:true
 }))
- 
+
+app.get('/test', (req, res) => {
+  res.render('test');
+});
+
 // establacer las rutas
 app.get('/login', (req, res) => {
   res.render('login');
 });
 app.get('/home', (req, res) => {
-    //authToken = loginWithJwt();
   if (authToken) {
     res.render('home');
   } else {
@@ -47,7 +50,6 @@ app.get('/home', (req, res) => {
   }
 });
 app.get("/create", (reg, res) => {
-  //authToken = loginWithJwt();
   if (authToken) {
     res.render('create');
   } else {
@@ -55,7 +57,6 @@ app.get("/create", (reg, res) => {
   }
 });
 app.get("/edite", (reg, res) => {
-  //authToken = loginWithJwt();
   if (authToken) {
     res.render('edite');
   } else {
@@ -63,7 +64,6 @@ app.get("/edite", (reg, res) => {
   }
 });
 app.get("/consult", (reg, res) => {
-  //authToken = loginWithJwt();
   if (authToken) {
     res.render('consult');
   } else {
@@ -71,7 +71,6 @@ app.get("/consult", (reg, res) => {
   }
 });
 app.get("/delete", (reg, res) => {
-  //authToken = loginWithJwt();
   if (authToken) {
     res.render('delete');
   } else {
@@ -89,16 +88,13 @@ let authToken;
 app.post('/register', async (req, res) => {
   try {
     // Obtener los datos del formulario desde el cuerpo de la solicitud
-    const { firstName, lastName, age, email, address, mobile, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
  
     // Crear un objeto con los datos del nuevo usuario
     const newUser = {
       nombre: firstName,
       apellidos: lastName,
-      edad: age,
       correo: email,
-      direccion: address,
-      telefono: mobile,
       contrasena: password
     };
  
@@ -113,7 +109,7 @@ app.post('/register', async (req, res) => {
         throw new Error('Token JWT no recibido');
       }
     } else {
-      res.status(500).send('Error al crear el usuario');
+      res.redirect('/login');
     }
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
@@ -132,8 +128,8 @@ app.post('/register', async (req, res) => {
  
 app.post('/auth', async (req, res) => {
   try {
-    const { correo, contrasena } = req.body;
-    authToken = await loginWithJwt(correo, contrasena);
+    const { email, password } = req.body;
+    authToken = await loginWithJwt(email, password);
     if (authToken) {
       res.redirect('/home');
     } else {
@@ -141,7 +137,7 @@ app.post('/auth', async (req, res) => {
     }
   } catch (error) {
     console.error('Error al autenticar:', error.message,);
-    res.status(500).send('Error al autenticar: ' + error.message);
+    res.redirect('/login');
   }
 });
 // Método para iniciar sesión con JWT
@@ -309,8 +305,13 @@ app.post('/deleteUser', async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
  // Consultar un usuario por su correo
  app.post('/getUser', async (req, res) => {
+=======
+// Consultar un usuario por su correo
+app.post('/getUser', async (req, res) => {
+>>>>>>> origin/feature-dilior
   try {
     const email = req.body.email;
 
@@ -325,12 +326,17 @@ app.post('/deleteUser', async (req, res) => {
       }
     });
 
-    const userData = response.data; // Acceder directamente a response.data
+    const userData = response.data; // Acceder directamente a response.data 
 
     // Verificar si se encontraron datos del usuario
     if (userData) {
+<<<<<<< HEAD
       // Renderizar la plantilla consult.ejs con los datos del usuario
       res.response(json);
+=======
+      // Actualizar los campos del formulario con los datos del usuario
+      res.status(200).json(userData);
+>>>>>>> origin/feature-dilior
     } else {
       // Si no se encontró el usuario, enviar un mensaje de error
       res.status(404).send('Usuario no encontrado');
