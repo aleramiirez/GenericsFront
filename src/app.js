@@ -312,23 +312,24 @@ app.post('/deleteUser', async (req, res) => {
 app.post('/getUser', async (req, res) => {
   try {
     const email = req.body.email;
- 
+
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
- 
+
     // Llamar a la API de SpringBoot para buscar el usuario por su correo electrónico
     const response = await axios.get(`${API_URL}/user/${email}`, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
     });
- 
+
     const userData = response.data;
- 
+
     // Verificar si se encontraron datos del usuario
     if (userData) {
-      res.send.json;
+      // Enviar los datos del usuario al frontend
+      res.status(200).json(userData);
     } else {
       // Si no se encontró el usuario, enviar un mensaje de error
       res.status(404).send('Usuario no encontrado');
