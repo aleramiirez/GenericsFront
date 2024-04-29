@@ -52,10 +52,6 @@ main {
   position: fixed;
   top: 0;
   z-index: 1;
-<<<<<<< HEAD
-=======
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
->>>>>>> origin/develop
   padding: 1%;
   box-shadow: 0 2px 5px #0000001a;
 }
