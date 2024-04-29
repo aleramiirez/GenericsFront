@@ -307,8 +307,8 @@ app.post('/deleteUser', async (req, res) => {
     }
   }
 });
- 
-// Consultar un usuario por su correo
+
+ // Consultar un usuario por su correo
 app.post('/getUser', async (req, res) => {
   try {
     const email = req.body.email;
@@ -324,7 +324,7 @@ app.post('/getUser', async (req, res) => {
       }
     });
 
-    const userData = response.data;
+    const userData = response.data; // Acceder directamente a response.data
 
     // Verificar si se encontraron datos del usuario
     if (userData) {
