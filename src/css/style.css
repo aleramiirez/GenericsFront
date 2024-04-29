@@ -39,13 +39,7 @@
   flex-direction: column;
   gap: 20px;
 }
-<<<<<<< HEAD:src/css/create.css
-.form {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-=======
 
->>>>>>> feature-dilior:src/css/style.css
 .form h1 {
   text-align: center;
 }

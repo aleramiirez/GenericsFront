@@ -328,7 +328,7 @@ app.post('/getUser', async (req, res) => {
  
     // Verificar si se encontraron datos del usuario
     if (userData) {
-
+      res.send.json;
     } else {
       // Si no se encontró el usuario, enviar un mensaje de error
       res.status(404).send('Usuario no encontrado');
