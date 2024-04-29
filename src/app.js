@@ -3,6 +3,7 @@ const axios = require('axios');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const ejs = require('ejs');
  
 // invocamos a express
 const express = require("express");
@@ -146,7 +147,6 @@ app.post('/auth', async (req, res) => {
 // Método para iniciar sesión con JWT
 async function loginWithJwt(correo, contrasena) {
   try {
-    console.log(correo, contrasena)
     const response = await axios.post("http://localhost:8080/auth/login", {
       correo: correo,
       contrasena: contrasena
@@ -159,7 +159,6 @@ async function loginWithJwt(correo, contrasena) {
  
     if (response.status === 200) {
       authToken = response.data.token;
-      console.log(authToken)
       return authToken;
     } else {
       throw new Error('Failed to login with JWT');
@@ -168,7 +167,7 @@ async function loginWithJwt(correo, contrasena) {
     throw error;
   }
 }
- 
+
 //Crear un usuario nuevo
 app.post('/createUser', async (req, res) => {
   try {
@@ -199,9 +198,10 @@ app.post('/createUser', async (req, res) => {
  
     // Verificar si se creó correctamente
     if (response.status === 201) {
-      res.redirect('/create');
+      res.render('create', { successMessage: 'Usuario creado' });
+      
     } else {
-      res.status(500).send('Error al crear el usuario');
+      res.render('create', { errorMessage: 'Error al crear el usuario' });
     }
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
@@ -217,6 +217,7 @@ app.post('/createUser', async (req, res) => {
     }
   }
 });
+
  
 // Modificar un usuario
 app.post('/editUser', async (req, res) => {
@@ -309,7 +310,7 @@ app.post('/deleteUser', async (req, res) => {
 });
 
  // Consultar un usuario por su correo
-app.post('/getUser', async (req, res) => {
+ app.post('/getUser', async (req, res) => {
   try {
     const email = req.body.email;
 
@@ -328,8 +329,8 @@ app.post('/getUser', async (req, res) => {
 
     // Verificar si se encontraron datos del usuario
     if (userData) {
-      // Enviar los datos del usuario al frontend
-      res.status(200).json(userData);
+      // Renderizar la plantilla consult.ejs con los datos del usuario
+      res.response(json);
     } else {
       // Si no se encontró el usuario, enviar un mensaje de error
       res.status(404).send('Usuario no encontrado');
@@ -340,7 +341,7 @@ app.post('/getUser', async (req, res) => {
     res.status(500).send('Error interno del servidor');
   }
 });
- 
+
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/login");
