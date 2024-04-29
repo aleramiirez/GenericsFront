@@ -87,7 +87,7 @@ app.post('/register', async (req, res) => {
   try {
     // Obtener los datos del formulario desde el cuerpo de la solicitud
     const { firstName, lastName, age, email, address, mobile, password } = req.body;
-
+ 
     // Crear un objeto con los datos del nuevo usuario
     const newUser = {
       nombre: firstName,
@@ -98,22 +98,9 @@ app.post('/register', async (req, res) => {
       telefono: mobile,
       contrasena: password
     };
-
-    // Llamar a la API de SpringBoot para crear el usuario
-<<<<<<< HEAD
-    const response = await axios.post(`${API_URL}/crear`, newUser, {
-      headers: {
-        Authorization: `Bearer ${authToken}`
-      }
-    });
-
-    // Verificar si se creó correctamente
-    if (response.status === 201) {
-      res.redirect('/index');
-    } else {
-=======
+ 
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
-
+ 
     // Verificar si se creó correctamente
     if (response.status === 200) {
       authToken = await loginWithJwt(newUser.correo, newUser.contrasena);
@@ -121,13 +108,13 @@ app.post('/register', async (req, res) => {
         res.redirect('/index');
       } else {
         throw new Error('Token JWT no recibido');
-      }    } else {
->>>>>>> feature-dilior
+      }
+    } else {
       res.status(500).send('Error al crear el usuario');
     }
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
-    
+   
     if (error.response) {
       if (error.response.status === 500) {
         res.status(500).send('Error interno del servidor');
