@@ -24,7 +24,7 @@ ul, ol, li {
 }
 .wrapper {
 	min-height: 100%;
-	overflow: hidden; /*off "overflow: hidden;" if don´t work ¨position: sticky;¨ in nav*/
+	overflow: hidden; 
 	/* -----  FOOTER IS ALWAYS BOTTOM...X  ----- */
 	display: flex;
 	flex-direction: column;
@@ -52,6 +52,10 @@ main {
   position: fixed;
   top: 0;
   z-index: 1;
+<<<<<<< HEAD
+=======
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+>>>>>>> origin/develop
   padding: 1%;
   box-shadow: 0 2px 5px #0000001a;
 }
@@ -120,7 +124,7 @@ main {
  height: 100%;
  width: 0;
  border-radius: 6px;
- background-color: #e81cff;
+ background-color: #40c9ff;
  z-index: -1;
  -webkit-box-shadow: 3px 4px 7px -3px #0000001a;
  box-shadow: 3px 4px 7px -3px #0000001a;
