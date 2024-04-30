@@ -24,7 +24,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 20px;
+    min-height: 100%;
 }
 
 @keyframes gradient {
@@ -140,6 +140,7 @@
   cursor: pointer;
   color: #00000000;
   align-items: center;
+  margin-top: 5%;
 }
 
 .icon {
@@ -148,8 +149,8 @@
 }
 
 .card i.fas.fa-user {
-  font-size: 50px; /* Ajustar el tamaño del icono */
-  color: #000000; /* Cambiar el color del icono */
+  font-size: 50px; 
+  color: #000000; 
 }
 
 .card::before {
@@ -178,12 +179,12 @@
 }
 
 .heading {
-  font-size: 14px;
+  font-size: 12px;
   text-transform: capitalize;
 }
 
 .card p#name {
-  margin-top: auto; /* Colocar el nombre en la parte inferior */
+  margin-top: auto;
 }
 
 .card p {
@@ -208,16 +209,15 @@
 }
 
 .card .data {
-  flex: 1; /* Ocupa todo el espacio disponible verticalmente */
+  flex: 1; 
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Alinear el contenido al principio */
+  justify-content: flex-start; 
 }
 
 .card-container {
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 30%;
+  gap: 10%;
 }
-
