@@ -16,13 +16,15 @@
 }
 
 .content {
-	min-width: 80%;
+	width: 100%;
 }
 
 .consult {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
 }
 
 @keyframes gradient {
@@ -125,5 +127,97 @@
   color: #ffffff;
 }
 
+.card {
+  position: relative;
+  width: 190px;
+  height: 254px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #00000000;
+  align-items: center;
+}
 
+.icon {
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+.card i.fas.fa-user {
+  font-size: 50px; /* Ajustar el tamaño del icono */
+  color: #000000; /* Cambiar el color del icono */
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  left: -5px;
+  margin: auto;
+  width: 200px;
+  height: 264px;
+  border-radius: 10px;
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
+  z-index: -10;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100% );
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
+}
+
+.heading {
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.card p#name {
+  margin-top: auto; /* Colocar el nombre en la parte inferior */
+}
+
+.card p {
+  padding-block: 3%;
+}
+
+.card p:not(.heading) {
+  font-size: 14px;
+}
+
+.card p:last-child {
+  color: #e81cff;
+  font-weight: 700;
+}
+
+.card:hover::after {
+  filter: blur(30px);
+}
+
+.card:hover::before {
+  transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
+}
+
+.card .data {
+  flex: 1; /* Ocupa todo el espacio disponible verticalmente */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinear el contenido al principio */
+}
+
+.card-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 30%;
+}
 
