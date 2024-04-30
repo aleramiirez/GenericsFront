@@ -305,22 +305,16 @@ app.post('/deleteUser', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
- // Consultar un usuario por su correo
- app.post('/getUser', async (req, res) => {
-=======
-// Consultar un usuario por su correo
 app.post('/getUser', async (req, res) => {
->>>>>>> origin/feature-dilior
   try {
-    const email = req.body.email;
+    const { searchBy, searchTerm } = req.body;
 
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
 
-    // Llamar a la API de SpringBoot para buscar el usuario por su correo electrónico
-    const response = await axios.get(`${API_URL}/user/${email}`, {
+    // Llamar a la API de SpringBoot para buscar el usuario según el campo y el término de búsqueda
+    const response = await axios.get(`${API_URL}/${searchBy}/${searchTerm}`, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
@@ -330,13 +324,8 @@ app.post('/getUser', async (req, res) => {
 
     // Verificar si se encontraron datos del usuario
     if (userData) {
-<<<<<<< HEAD
-      // Renderizar la plantilla consult.ejs con los datos del usuario
-      res.response(json);
-=======
-      // Actualizar los campos del formulario con los datos del usuario
+      // Enviar los datos del usuario como respuesta en formato JSON
       res.status(200).json(userData);
->>>>>>> origin/feature-dilior
     } else {
       // Si no se encontró el usuario, enviar un mensaje de error
       res.status(404).send('Usuario no encontrado');
