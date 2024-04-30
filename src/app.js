@@ -3,6 +3,7 @@ const axios = require('axios');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const ejs = require('ejs');
  
 // invocamos a express
 const express = require("express");
@@ -32,13 +33,16 @@ app.use(expressSession({
   resave:true,
   saveUninitialized:true
 }))
- 
+
+app.get('/test', (req, res) => {
+  res.render('test');
+});
+
 // establacer las rutas
 app.get('/login', (req, res) => {
   res.render('login');
 });
 app.get('/home', (req, res) => {
-    //authToken = loginWithJwt();
   if (authToken) {
     res.render('home');
   } else {
@@ -46,7 +50,6 @@ app.get('/home', (req, res) => {
   }
 });
 app.get("/create", (reg, res) => {
-  //authToken = loginWithJwt();
   if (authToken) {
     res.render('create');
   } else {
@@ -54,7 +57,6 @@ app.get("/create", (reg, res) => {
   }
 });
 app.get("/edite", (reg, res) => {
-  //authToken = loginWithJwt();
   if (authToken) {
     res.render('edite');
   } else {
@@ -62,7 +64,6 @@ app.get("/edite", (reg, res) => {
   }
 });
 app.get("/consult", (reg, res) => {
-  //authToken = loginWithJwt();
   if (authToken) {
     res.render('consult');
   } else {
@@ -70,7 +71,6 @@ app.get("/consult", (reg, res) => {
   }
 });
 app.get("/delete", (reg, res) => {
-  //authToken = loginWithJwt();
   if (authToken) {
     res.render('delete');
   } else {
@@ -88,16 +88,13 @@ let authToken;
 app.post('/register', async (req, res) => {
   try {
     // Obtener los datos del formulario desde el cuerpo de la solicitud
-    const { firstName, lastName, age, email, address, mobile, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
  
     // Crear un objeto con los datos del nuevo usuario
     const newUser = {
       nombre: firstName,
       apellidos: lastName,
-      edad: age,
       correo: email,
-      direccion: address,
-      telefono: mobile,
       contrasena: password
     };
  
@@ -112,7 +109,7 @@ app.post('/register', async (req, res) => {
         throw new Error('Token JWT no recibido');
       }
     } else {
-      res.status(500).send('Error al crear el usuario');
+      res.redirect('/login');
     }
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
@@ -131,8 +128,8 @@ app.post('/register', async (req, res) => {
  
 app.post('/auth', async (req, res) => {
   try {
-    const { correo, contrasena } = req.body;
-    authToken = await loginWithJwt(correo, contrasena);
+    const { email, password } = req.body;
+    authToken = await loginWithJwt(email, password);
     if (authToken) {
       res.redirect('/home');
     } else {
@@ -140,13 +137,12 @@ app.post('/auth', async (req, res) => {
     }
   } catch (error) {
     console.error('Error al autenticar:', error.message,);
-    res.status(500).send('Error al autenticar: ' + error.message);
+    res.redirect('/login');
   }
 });
 // Método para iniciar sesión con JWT
 async function loginWithJwt(correo, contrasena) {
   try {
-    console.log(correo, contrasena)
     const response = await axios.post("http://localhost:8080/auth/login", {
       correo: correo,
       contrasena: contrasena
@@ -159,7 +155,6 @@ async function loginWithJwt(correo, contrasena) {
  
     if (response.status === 200) {
       authToken = response.data.token;
-      console.log(authToken)
       return authToken;
     } else {
       throw new Error('Failed to login with JWT');
@@ -168,7 +163,7 @@ async function loginWithJwt(correo, contrasena) {
     throw error;
   }
 }
- 
+
 //Crear un usuario nuevo
 app.post('/createUser', async (req, res) => {
   try {
@@ -199,9 +194,10 @@ app.post('/createUser', async (req, res) => {
  
     // Verificar si se creó correctamente
     if (response.status === 201) {
-      res.redirect('/create');
+      res.render('create', { successMessage: 'Usuario creado' });
+      
     } else {
-      res.status(500).send('Error al crear el usuario');
+      res.render('create', { errorMessage: 'Error al crear el usuario' });
     }
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
@@ -217,6 +213,7 @@ app.post('/createUser', async (req, res) => {
     }
   }
 });
+
  
 // Modificar un usuario
 app.post('/editUser', async (req, res) => {
@@ -308,27 +305,26 @@ app.post('/deleteUser', async (req, res) => {
   }
 });
 
- // Consultar un usuario por su correo
 app.post('/getUser', async (req, res) => {
   try {
-    const email = req.body.email;
+    const { searchBy, searchTerm } = req.body;
 
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
 
-    // Llamar a la API de SpringBoot para buscar el usuario por su correo electrónico
-    const response = await axios.get(`${API_URL}/user/${email}`, {
+    // Llamar a la API de SpringBoot para buscar el usuario según el campo y el término de búsqueda
+    const response = await axios.get(`${API_URL}/${searchBy}/${searchTerm}`, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
     });
 
-    const userData = response.data; // Acceder directamente a response.data
+    const userData = response.data; // Acceder directamente a response.data 
 
     // Verificar si se encontraron datos del usuario
     if (userData) {
-      // Enviar los datos del usuario al frontend
+      // Enviar los datos del usuario como respuesta en formato JSON
       res.status(200).json(userData);
     } else {
       // Si no se encontró el usuario, enviar un mensaje de error
@@ -340,7 +336,8 @@ app.post('/getUser', async (req, res) => {
     res.status(500).send('Error interno del servidor');
   }
 });
- 
+
+
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/login");

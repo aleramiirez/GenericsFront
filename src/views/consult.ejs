@@ -18,6 +18,8 @@
       <!-- ------------------------------  STYLES  ------------------------------ -->
       <link href="resourses/css/index.css" rel="stylesheet" type="text/css"/>
       <link href="resourses/css/consult.css" rel="stylesheet" type="text/css"/>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     </head>
     <body>
       <div class="wrapper">
@@ -42,41 +44,26 @@
                   <form class="form" id="searchForm" action="/getUser" method="post">
                     <h1>Buscar Usuario</h1>
                     <div class="form-group">
-                      <label for="email">Correo</label>
-                      <input name="email" id="email" type="email" required>
+                        <label for="searchBy">Buscar por:</label>
+                        <select name="searchBy" id="searchBy" required>
+                            <option value="nombre">Nombre</option>
+                            <option value="apellidos">Apellidos</option>
+                            <option value="edad">edad</option>
+                            <option value="correo">Correo</option>
+                            <option value="direccion">Direccion</option>
+                            <option value="telefono">Telefono</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchTerm">Término de búsqueda:</label>
+                        <input name="searchTerm" id="searchTerm" type="text" required>
                     </div>
                     <button type="submit" class="form-submit-btn">Buscar</button>
                   </form>
                 </div>
-                <div class="form-container">
-                  <form class="form" id="userDataForm">
-                    <h1>Datos del Usuario</h1>
-                    <div class="form-group">
-                      <label for="firstName">Nombre</label>
-                      <input name="firstName" id="firstName" type="text">
-                    </div>
-                    <div class="form-group">
-                      <label for="lastName">Apellidos</label>
-                      <input name="lastName" id="lastName" type="text">
-                    </div>
-                    <div class="form-group">
-                      <label for="age">Edad</label>
-                      <input name="age" id="age" type="number">
-                    </div>
-                    <div class="form-group">
-                      <label for="email2">Correo</label>
-                      <input name="email" id="email2" type="email">
-                    </div>
-                    <div class="form-group">
-                      <label for="address">Dirección</label>
-                      <input name="address" id="address" type="text">
-                    </div>
-                    <div class="form-group">
-                      <label for="mobile">Teléfono</label>
-                      <input name="mobile" id="mobile" type="number">
-                    </div>
-                  </form>
-                </div>
+                <div class="card-container">
+                  
+                </div>                
               </div>
             </main>
          </div>
@@ -87,5 +74,66 @@
           </div>
        </footer>
       </div>
-   </body>
+      <script>
+        document.getElementById('searchForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+
+    const formData = new FormData(event.target); // Obtener datos del formulario
+    const searchBy = formData.get('searchBy'); // Obtener el campo de búsqueda seleccionado
+    const searchTerm = formData.get('searchTerm'); // Obtener el término de búsqueda
+
+    try {
+        const response = await fetch('/getUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ searchBy, searchTerm }) // Enviar el campo y el término de búsqueda al servidor
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos del usuario');
+        }
+
+        const userDataArray = await response.json(); // Convertir la respuesta a JSON (un array de usuarios)
+
+        if (userDataArray.length > 0) {
+            // Si se encontraron usuarios, crear las tarjetas dinámicamente y agregarlas al contenedor
+            const dataContainer = document.querySelector('.card-container'); // Contenedor de las tarjetas
+
+            // Limpiar cualquier tarjeta existente antes de agregar nuevas
+            dataContainer.innerHTML = '';
+
+            // Crear tarjetas para cada usuario
+            userDataArray.forEach(userData => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                // Contenido de la tarjeta para cada usuario
+                card.innerHTML = `
+                    <div class="icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="data">
+                        <p class="heading" id="correo">${userData.correo}</p>
+                        <p class="heading" id="age">${userData.edad} años</p>
+                        <p class="heading" id="address">${userData.direccion}</p>
+                        <p class="heading" id="mobile">${userData.telefono}</p>
+                        <p id="name">${userData.nombre} ${userData.apellidos}</p>
+                    </div>
+                `;
+
+                // Agregar la tarjeta al contenedor
+                dataContainer.appendChild(card);
+            });
+        } else {
+            // Si no se encontraron usuarios, mostrar un mensaje de error
+            alert('Usuario no encontrado');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+        </script>        
+  </body>
 </html>
