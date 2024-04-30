@@ -52,7 +52,6 @@ main {
   position: fixed;
   top: 0;
   z-index: 1;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   padding: 1%;
   box-shadow: 0 2px 5px #0000001a;
 }
@@ -121,7 +120,7 @@ main {
  height: 100%;
  width: 0;
  border-radius: 6px;
- background-color: #e81cff;
+ background-color: #40c9ff;
  z-index: -1;
  -webkit-box-shadow: 3px 4px 7px -3px #0000001a;
  box-shadow: 3px 4px 7px -3px #0000001a;
