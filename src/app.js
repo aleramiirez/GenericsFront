@@ -3,12 +3,7 @@ const axios = require('axios');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-<<<<<<< HEAD
-const ejs = require('ejs');
- 
-=======
 
->>>>>>> feature-dilior
 // invocamos a express
 const express = require("express");
 const flash = require('express-flash');
@@ -168,11 +163,6 @@ async function loginWithJwt(correo, contrasena) {
   }
 }
 
-<<<<<<< HEAD
-//Crear un usuario nuevo
-=======
-
->>>>>>> feature-dilior
 app.post('/createUser', async (req, res) => {
   try {
     // Obtener los datos del formulario desde el cuerpo de la solicitud
@@ -220,11 +210,6 @@ app.post('/createUser', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
- 
-// Modificar un usuario
-=======
->>>>>>> feature-dilior
 app.post('/editUser', async (req, res) => {
   try {
     const email = req.body.email;
@@ -345,10 +330,6 @@ app.post('/getUser', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> feature-dilior
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/login");
