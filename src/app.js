@@ -79,18 +79,15 @@ app.post('/register', async (req, res) => {
       apellidos: lastName,
       correo: email,
       contrasena: password,
-      auth: checkAuth
+      mfaEnabled: checkAuth
     };
  
-    console.log(newUser);
     console.log(newUser);
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
  
     if (response.status === 200) {
       res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
-      res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
     } else {
-      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
       res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }
   } catch (error) {
@@ -101,20 +98,11 @@ app.post('/register', async (req, res) => {
       } else if (error.response.status === 400) {
         console.log('Error interno del cliente: '+error.message);
         res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo' });
-        console.log('Error interno del servidor: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo' });
-      } else if (error.response.status === 400) {
-        console.log('Error interno del cliente: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo' });
       } else {
-        console.log('Error inesperado: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });  
         console.log('Error inesperado: '+error.message);
         res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });  
       }
     } else {
-      console.log('Error inesperado: '+error.message);
-      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
       console.log('Error inesperado: '+error.message);
       res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }  
