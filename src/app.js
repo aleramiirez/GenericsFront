@@ -88,21 +88,26 @@ let authToken;
 app.post('/register', async (req, res) => {
   try {
     // Obtener los datos del formulario desde el cuerpo de la solicitud
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, mfaEnabled  } = req.body;
  
     // Crear un objeto con los datos del nuevo usuario
     const newUser = {
       nombre: firstName,
       apellidos: lastName,
       correo: email,
-      contrasena: password
+      contrasena: password,
+      mfaEnabled : mfaEnabled
+  
+
     };
+
  
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
  
     // Verificar si se creó correctamente
     if (response.status === 200) {
       authToken = await loginWithJwt(newUser.correo, newUser.contrasena);
+      
       if (authToken) {
         res.redirect('/home');
       } else {
