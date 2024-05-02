@@ -102,30 +102,29 @@ function showContent(page) {
       
     case 'consult':
       content = `
-      <div class="consult" id="mainContent">
-      <div class="form-container">
-        <form class="form" id="searchForm" action="/getUser" method="post">
+      <div class="cont">
           <h1>Buscar Usuario</h1>
-          <div class="form-group">
-              <label for="searchBy">Buscar por:</label>
-              <select name="searchBy" id="searchBy" required>
-                  <option value="nombre">Nombre</option>
-                  <option value="apellidos">Apellidos</option>
-                  <option value="edad">Edad</option>
-                  <option value="correo">Correo</option>
-                  <option value="direccion">Dirección</option>
-                  <option value="telefono">Teléfono</option>
-              </select>
-          </div>
-          <div class="form-group">
-              <label for="searchTerm">Término de búsqueda:</label>
-              <input name="searchTerm" id="searchTerm" type="text" required>
-          </div>
-          <button type="submit" class="form-submit-btn">Buscar</button>
-        </form>
-      </div>
+          <form class="form" id="searchForm" action="/getUser" method="post">
+            <div class="form-group">
+                <label for="searchBy">Buscar por:</label>
+                <select name="searchBy" id="searchBy" required>
+                    <option value="nombre">Nombre</option>
+                    <option value="apellidos">Apellidos</option>
+                    <option value="edad">edad</option>
+                    <option value="correo">Correo</option>
+                    <option value="direccion">Direccion</option>
+                    <option value="telefono">Telefono</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="searchTerm">Término de búsqueda:</label>
+                <input name="searchTerm" id="searchTerm" type="text" required>
+            </div>
+            <button type="submit" class="form-submit-btn">Buscar</button>
+          </form>
+        </div>
       <div class="card-container">
-        <!-- Aquí se mostrarán las tarjetas de resultados de búsqueda -->
+        
       </div>
     </div>
       `;
