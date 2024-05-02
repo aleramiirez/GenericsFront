@@ -105,9 +105,9 @@ app.post('/register', async (req, res) => {
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
  
     // Verificar si se creó correctamente
-    if (response.status === 200) {
+    if (response.status === 200)  {
       authToken = await loginWithJwt(newUser.correo, newUser.contrasena);
-      
+
       if (authToken) {
         res.redirect('/home');
       } else {
