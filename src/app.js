@@ -3,12 +3,8 @@ const axios = require('axios');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-<<<<<<< HEAD
 const ejs = require('ejs');
- 
-=======
 
->>>>>>> feature-dilior
 // invocamos a express
 const express = require("express");
 const flash = require('express-flash');
@@ -62,30 +58,9 @@ app.get('/user', (req, res) => {
     res.redirect('/login');
   }
 });
-app.get("/create", (reg, res) => {
-  if (authToken) {
-    res.render('create');
-  } else {
-    res.redirect('/login');
-  }
-});
-app.get("/edite", (reg, res) => {
-  if (authToken) {
-    res.render('edite');
-  } else {
-    res.redirect('/login');
-  }
-});
 app.get("/consult", (reg, res) => {
   if (authToken) {
     res.render('consult');
-  } else {
-    res.redirect('/login');
-  }
-});
-app.get("/delete", (reg, res) => {
-  if (authToken) {
-    res.render('delete');
   } else {
     res.redirect('/login');
   }
@@ -106,19 +81,25 @@ app.post('/register', async (req, res) => {
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
 
     if (response.status === 200) {
-      res.render('login');
+      res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
     } else {
-      res.render('login');
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
-        res.status(500).send('Error interno del servidor: '+error.message);
+        console.log('Error interno del servidor: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo' });
+      } else if (error.response.status === 400) {
+        console.log('Error interno del cliente: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo' });
       } else {
-        res.status(400).send('Error interno del cliente: '+error.message);
+        console.log('Error inesperado: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });  
       }
     } else {
-      res.send('Error inesperado: '+error.message);
+      console.log('Error inesperado: '+error.message);
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }  
   }
 });
@@ -135,13 +116,19 @@ app.post('/auth', async (req, res) => {
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
-        res.status(500).send('Error interno del servidor: '+error.message);
+        console.log('Error interno del servidor: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo mas tarde!' });
+      } else if (error.response.status === 400) {
+        console.log('Error interno del cliente: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo mas tarde!' });
       } else {
-        res.status(400).send('Error interno del cliente: '+error.message);
+        console.log('Error inesperado: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo mas tarde!' });  
       }
     } else {
-      res.send('Error inesperado: '+error.message);
-    }
+      console.log('Error inesperado: '+error.message);
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo mas tarde!' });
+    }  
   }
 });
 
@@ -168,11 +155,6 @@ async function loginWithJwt(correo, contrasena) {
   }
 }
 
-<<<<<<< HEAD
-//Crear un usuario nuevo
-=======
-
->>>>>>> feature-dilior
 app.post('/createUser', async (req, res) => {
   try {
     // Obtener los datos del formulario desde el cuerpo de la solicitud
@@ -202,10 +184,9 @@ app.post('/createUser', async (req, res) => {
 
     // Verificar si se creó correctamente
     if (response.status === 201) {
-      res.render('create', { successMessage: 'Usuario creado' });
-      
+      res.redirect('/user');
     } else {
-      res.render('create', { errorMessage: 'Error al crear el usuario' });
+      res.status(500).send('Error al crear el usuario');
     }
   } catch (error) {
     if (error.response) {
@@ -220,11 +201,7 @@ app.post('/createUser', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
- 
-// Modificar un usuario
-=======
->>>>>>> feature-dilior
+
 app.post('/editUser', async (req, res) => {
   try {
     const email = req.body.email;
@@ -254,7 +231,7 @@ app.post('/editUser', async (req, res) => {
 
     // Verificar si se editó correctamente
     if (response.status === 200) {
-      res.redirect('/edite');
+      res.redirect('/user');
     } else {
       res.status(500).send('Error al editar el usuario');
     }
@@ -289,7 +266,7 @@ app.post('/deleteUser', async (req, res) => {
 
     // Verificar si se eliminó correctamente
     if (response.status === 200) {
-      res.redirect('/delete');
+      res.redirect('/user');
     } else {
       res.status(500).send('Error al eliminar el usuario');
     }
@@ -345,10 +322,6 @@ app.post('/getUser', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> feature-dilior
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/login");

@@ -215,7 +215,7 @@
   justify-content: flex-start; 
 }
 
-.card-container {
+card-container {
   width: 100%;
   display: flex;
   flex-direction: row;

@@ -20,7 +20,8 @@ ul, ol, li {
 	--index: calc(1vw + 1vh);
 	--color: #2d2d2d;
 	--transition: transform .75s cubic-bezier(.075, .5, 0, 1);
-	--gallery-gap: calc(var(--index) * 7.5)
+	--gallery-gap: calc(var(--index) * 7.5);
+
 }
 .wrapper {
 	min-height: 100%;
@@ -138,7 +139,6 @@ main {
   align-items: center;
   justify-items: center;
   padding: 20px;
-  background-color: #ffffff;
 }
 .copyright {
   display: flex;

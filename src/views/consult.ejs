@@ -19,7 +19,6 @@
       <link href="resourses/css/index.css" rel="stylesheet" type="text/css"/>
       <link href="resourses/css/consult.css" rel="stylesheet" type="text/css"/>
       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
     </head>
     <body>
       <div class="wrapper">
@@ -30,16 +29,16 @@
           </div>
           <nav class="header-nav">
             <div class="nav-menu">
-              <a class="menu-text" href="/create">CREAR</a></li>
-              <a class="menu-text" href="/edite">MODIFICAR</a></li>
-              <a class="menu-text" href="/delete">ELIMINAR</a></li>
-              <a class="menu-text" href="/consult">CONSULTAR</a></li>
+              <a class="menu-text" onclick="showContent('create')">CREAR</a></li>
+              <a class="menu-text" onclick="showContent('edit')">MODIFICAR</a></li>
+              <a class="menu-text" onclick="showContent('delete')">ELIMINAR</a></li>
+                <a class="menu-text" href="/consult">CONSULTAR</a></li>
             </div>
           </nav>
         </header>
-         <div class="content">
+          <div class="content">
             <main>
-              <div class="consult">
+              <div class="consult" id="mainContent">
                 <div class="form-container">
                   <form class="form" id="searchForm" action="/getUser" method="post">
                     <h1>Buscar Usuario</h1>
@@ -63,77 +62,77 @@
                 </div>
                 <div class="card-container">
                   
-                </div>                
+                </div>
               </div>
             </main>
-         </div>
-         <footer>
-          <div class="footer">
-             <div class="copyright">
-             </div>
           </div>
-       </footer>
+          <footer>
+          <div class="footer">
+            <div class="copyright">
+            </div>
+          </div>
+        </footer>
       </div>
       <script>
         document.getElementById('searchForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+          event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
 
-    const formData = new FormData(event.target); // Obtener datos del formulario
-    const searchBy = formData.get('searchBy'); // Obtener el campo de búsqueda seleccionado
-    const searchTerm = formData.get('searchTerm'); // Obtener el término de búsqueda
+          const formData = new FormData(event.target); // Obtener datos del formulario
+          const searchBy = formData.get('searchBy'); // Obtener el campo de búsqueda seleccionado
+          const searchTerm = formData.get('searchTerm'); // Obtener el término de búsqueda
 
-    try {
-        const response = await fetch('/getUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ searchBy, searchTerm }) // Enviar el campo y el término de búsqueda al servidor
+          try {
+              const response = await fetch('/getUser', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ searchBy, searchTerm }) // Enviar el campo y el término de búsqueda al servidor
+              });
+
+              if (!response.ok) {
+                  throw new Error('Error al obtener los datos del usuario');
+              }
+
+              const userDataArray = await response.json(); // Convertir la respuesta a JSON (un array de usuarios)
+
+              if (userDataArray.length > 0) {
+                  // Si se encontraron usuarios, crear las tarjetas dinámicamente y agregarlas al contenedor
+                  const dataContainer = document.querySelector('.card-container'); // Contenedor de las tarjetas
+
+                  // Limpiar cualquier tarjeta existente antes de agregar nuevas
+                  dataContainer.innerHTML = '';
+
+                  // Crear tarjetas para cada usuario
+                  userDataArray.forEach(userData => {
+                      const card = document.createElement('div');
+                      card.classList.add('card');
+
+                      // Contenido de la tarjeta para cada usuario
+                      card.innerHTML = `
+                          <div class="icon">
+                              <i class="fas fa-user"></i>
+                          </div>
+                          <div class="data">
+                              <p class="heading" id="correo">${userData.correo}</p>
+                              <p class="heading" id="age">${userData.edad} años</p>
+                              <p class="heading" id="address">${userData.direccion}</p>
+                              <p class="heading" id="mobile">${userData.telefono}</p>
+                              <p id="name">${userData.nombre} ${userData.apellidos}</p>
+                          </div>
+                      `;
+
+                      // Agregar la tarjeta al contenedor
+                      dataContainer.appendChild(card);
+                  });
+              } else {
+                  // Si no se encontraron usuarios, mostrar un mensaje de error
+                  alert('Usuario no encontrado');
+              }
+          } catch (error) {
+              console.error('Error:', error);
+          }
         });
-
-        if (!response.ok) {
-            throw new Error('Error al obtener los datos del usuario');
-        }
-
-        const userDataArray = await response.json(); // Convertir la respuesta a JSON (un array de usuarios)
-
-        if (userDataArray.length > 0) {
-            // Si se encontraron usuarios, crear las tarjetas dinámicamente y agregarlas al contenedor
-            const dataContainer = document.querySelector('.card-container'); // Contenedor de las tarjetas
-
-            // Limpiar cualquier tarjeta existente antes de agregar nuevas
-            dataContainer.innerHTML = '';
-
-            // Crear tarjetas para cada usuario
-            userDataArray.forEach(userData => {
-                const card = document.createElement('div');
-                card.classList.add('card');
-
-                // Contenido de la tarjeta para cada usuario
-                card.innerHTML = `
-                    <div class="icon">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="data">
-                        <p class="heading" id="correo">${userData.correo}</p>
-                        <p class="heading" id="age">${userData.edad} años</p>
-                        <p class="heading" id="address">${userData.direccion}</p>
-                        <p class="heading" id="mobile">${userData.telefono}</p>
-                        <p id="name">${userData.nombre} ${userData.apellidos}</p>
-                    </div>
-                `;
-
-                // Agregar la tarjeta al contenedor
-                dataContainer.appendChild(card);
-            });
-        } else {
-            // Si no se encontraron usuarios, mostrar un mensaje de error
-            alert('Usuario no encontrado');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
-        </script>        
+      </script>
   </body>
 </html>
