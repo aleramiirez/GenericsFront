@@ -86,7 +86,7 @@ app.post('/register', async (req, res) => {
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
  
     if (response.status === 200) {
-      res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
+      res.render('check', { message: 'Tu registro se ha completado. Espera a lo aceptemos' });
     } else {
       res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }
