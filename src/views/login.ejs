@@ -11,8 +11,8 @@
     <meta name="vierport" content="width=device=width, initial scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE-edge, chrome1" />
 
-    <title>Head</title>
-    <link rel="shortcut icon" href="img/logo.ico" />
+    <title>LOGIN</title>
+    <link rel="shortcut icon" href="resourses/lib/img/logo.ico" />
     <!-- ------------------------------  LIBRARY  ------------------------------ -->
 
     <!-- ------------------------------  STYLES  ------------------------------ -->
@@ -22,6 +22,8 @@
   <body>
     <div class="wrapper">
       <div class="content">
+        <header>
+        </header>
         <main>
           <div class="container" id="container">
             <div class="form-container sign-up-container">
@@ -33,6 +35,10 @@
                 <input name="password" id="password" type="password" placeholder="Contraseña" required/>
                 <input type="checkbox" name="mfaEnabled" value="true" id="mfaEnabled"> 2FA
 
+                  <select class="select" name="checkAuth" id="checkAuth">
+                    <option value="true">Autoidentificación Activado</option>
+                    <option value="false">Autoidentificación Desactivado</option>
+                  </select>
                 <button>Crear</button>
               </form>
             </div>
@@ -62,14 +68,9 @@
             </div>
           </div>
         </main>
+        <footer>
+        </footer>
       </div>
-      <footer>
-        <div class="footer">
-           <div class="copyright">
-           </div>
-        </div>
-     </footer>
-    </div>
     </div>
     <script src="/resourses/js/login.js"></script>
   </body>

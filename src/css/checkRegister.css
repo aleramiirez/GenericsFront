@@ -1,0 +1,67 @@
+.card {
+    width: 220px;
+    height: 200px;
+    border-radius: 30px;
+    background: #e0e0e0;
+    box-shadow: 15px 15px 30px #bebebe,
+              -15px -15px 30px #ffffff;
+    padding: 1%;
+    display: flex; /* Agregado */
+    flex-direction: column; /* Agregado */
+    justify-content: space-between; /* Agregado */
+    align-items: center; /* Agregado */
+}
+
+.card-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+}
+
+.icon {
+    align-items: center;
+    margin-bottom: 12%;
+}
+
+.card i.fas.fa-user {
+    font-size: 50px; 
+    color: #000000; 
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 10%;
+}
+
+#name {
+    margin-bottom: 2%;
+}
+
+#true {
+    background-color: rgb(93, 219, 93);
+}
+
+#false {
+    background-color: rgb(220, 57, 57);
+}
+
+.btn-circle.btn-lg {
+    width: 40px; 
+    height: 40px; 
+    padding: 8px 14px; 
+    font-size: 16px; 
+    line-height: 1.33;
+    border-radius: 20px; 
+}
