@@ -22,6 +22,7 @@
   <body>
     <div class="wrapper">
       <div class="content">
+<<<<<<< HEAD
         <header>
         </header>
         <main> 
@@ -59,6 +60,43 @@
                     <p>Si todavia no tienes cuenta, crea una cuenta y comienza tu viaje con nosotros.</p>
                     <button class="ghost" id="signUp">Crear</button>
                   </div>
+=======
+        <main>
+          <div class="container" id="container">
+            <div class="form-container sign-up-container">
+              <form action="/register" method="post">
+                <h1>REGISTRAR</h1>
+                <input name="firstName" id="firstName" type="text" placeholder="Nombre" required/>
+                <input name="lastName" id="lastName" type="text" placeholder="Apellidos" required/>
+                <input name="email" id="email" type="email" placeholder="Correo" required/>
+                <input name="password" id="password" type="password" placeholder="Contraseña" required/>
+                <input type="checkbox" name="mfaEnabled" value="true" id="mfaEnabled"> 2FA
+
+                <button>Crear</button>
+              </form>
+            </div>
+            <div class="form-container sign-in-container">
+              <form action="/auth" method="post">
+                <h1>INICIAR SESION</h1>
+                <input name="email" id="email" type="email" placeholder="Correo" required/>
+                <input name="password" id="password" type="password" placeholder="Contraseña" required/>
+                <a href="#">Olvidaste contraseña?</a>
+                <button>Entrar</button>
+              </form>
+            </div>
+
+            <div class="overlay-container">
+              <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                  <h1>Bienvenido de nuevo!</h1>
+                  <p>Si ya tienes cuenta, inicie sesión con su información personal</p>
+                  <button class="ghost" id="signIn">Iniciar sesión</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                  <h1>Hola, Amigo!</h1>
+                  <p>Si todavia no tienes cuenta, crea una cuenta y comienza tu viaje con nosotros.</p>
+                  <button class="ghost" id="signUp">Crear</button>
+>>>>>>> origin/feature-alberto
                 </div>
               </div>
             </div>

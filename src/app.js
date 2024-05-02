@@ -92,19 +92,43 @@ app.get("/delete", (reg, res) => {
 // endpoints
 app.post('/register', async (req, res) => {
   try {
+<<<<<<< HEAD
     const { firstName, lastName, email, password } = req.body;
 
+=======
+    // Obtener los datos del formulario desde el cuerpo de la solicitud
+    const { firstName, lastName, email, password, mfaEnabled  } = req.body;
+ 
+    // Crear un objeto con los datos del nuevo usuario
+>>>>>>> origin/feature-alberto
     const newUser = {
       nombre: firstName,
       apellidos: lastName,
       correo: email,
-      contrasena: password
+      contrasena: password,
+      mfaEnabled : mfaEnabled
+  
+
     };
 
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> origin/feature-alberto
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
 
     if (response.status === 200) {
+<<<<<<< HEAD
       res.render('login');
+=======
+      authToken = await loginWithJwt(newUser.correo, newUser.contrasena);
+      
+      if (authToken) {
+        res.redirect('/home');
+      } else {
+        throw new Error('Token JWT no recibido');
+      }
+>>>>>>> origin/feature-alberto
     } else {
       res.render('login');
     }
