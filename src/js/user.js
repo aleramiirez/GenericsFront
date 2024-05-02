@@ -139,6 +139,7 @@ function showContent(page) {
         </div>
       `;
       break;
+      
   }
 
   // Actualizar el contenido de <main>
