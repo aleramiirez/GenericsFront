@@ -17,8 +17,9 @@
 
     <!-- ------------------------------  STYLES  ------------------------------ -->
     <link href="resourses/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="resourses/css/crud.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>
+  <body onload="showContent('create')">
     <div class="wrapper">
       <header class="header">
         <div class="header-title">
@@ -27,29 +28,32 @@
         </div>
         <nav class="header-nav">
           <div class="nav-menu">
-            <a class="menu-text" onclick="showContent('create')">CREAR</a></li>
-            <a class="menu-text" onclick="showContent('edit')">MODIFICAR</a></li>
-            <a class="menu-text" onclick="showContent('delete')">ELIMINAR</a></li>
-            <a class="menu-text" href="/consult">CONSULTAR</a></li>
-            <a class="menu-text" href="/checkRegister">Aprobar Registro</a></li>
+            <a class="menu-text" href="/home">INICIO</a></li>
+            <a class="menu-text" href="/consult">CONSULTAR FUNCIONAL</a></li>
+            <a class="menu-text" href="/checkRegister">APROBAR REGISTRO</a></li>
           </div>
         </nav>
       </header>
       <div class="content">
         <main>
-          <div id="mainContent">
+          <div class="container">
+            <div class="form-menu">
+              <div class="form-menu-nav">
+                <a class="form-menu-nav-text" onclick="showContent('create')">CREAR</a></li>
+                <a class="form-menu-nav-text" onclick="showContent('consult')">CONSULTAR</a></li>
+                <a class="form-menu-nav-text" onclick="showContent('edit')">MODIFICAR</a></li>
+                <a class="form-menu-nav-text" onclick="showContent('delete')">ELIMINAR</a></li>
+              </div>  
+            </div>
+            <div class="form-container" id="mainContent">
 
+            </div>
           </div>
         </main>
         <footer>
-          <div class="footer">
-            <div class="copyright">
-            </div>
-          </div>
         </footer>
       </div>
     </div>
-    </div>
-    <script src="resourses/js/user.js"></script>
+    <script src="/resourses/js/user.js"></script>
   </body>
 </html>

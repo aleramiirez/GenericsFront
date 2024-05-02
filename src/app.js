@@ -1,51 +1,43 @@
+const express = require("express");
+const bodyParser = require('body-parser');
+const expressSession = require("express-session");
+const flash = require('express-flash');
 const bcrypt = require("bcryptjs");
 const axios = require('axios');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const ejs = require('ejs');
+const dotenv = require("dotenv");
 
-// invocamos a express
-const express = require("express");
-const flash = require('express-flash');
+dotenv.config();
 const app = express();
 
-// seteamos urlencoded para capturar los datos del fomulario
+// MIDDLEWARES
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 app.use(bodyParser.json());
-
-// inovacmos a dontv
-const dotenv = require("dotenv");
-dotenv.config();
-
-// el directorxio public
-app.use("/resourses", express.static("src"));
-app.use("/resourses", express.static(__dirname + "/src"));
-
-// establacemos el motor de plantillas ejs
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
-// var de sesion
-const expressSession = require("express-session")
 app.use(expressSession({
   secret:"secret",
   resave:true,
   saveUninitialized:true
-}))
+}));
+app.use("/resourses", express.static("src"));
+app.use("/resourses", express.static(__dirname + "/src"));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
-const API_URL=process.env.API_URL;
-const PORT=process.env.PORT;
-const JWT_SECRET=process.env.JWT_SECRET;
+// VARIABLES
+const API_URL = process.env.API_URL;
+const PORT = process.env.PORT;
+const JWT_SECRET = process.env.JWT_SECRET;
 let authToken;
 
-// establacer las rutas
+// ROUTES
 app.get('/login', (req, res) => {
   res.render('login');
 });
-app.get('/checkRegister', (req, res) => {
-  res.render('checkRegister');
+app.get('/test', (req, res) => {
+  res.render('test');
 });
 app.get('/home', (req, res) => {
   if (authToken) {
@@ -68,19 +60,28 @@ app.get("/consult", (reg, res) => {
     res.redirect('/login');
   }
 });
+app.get('/checkRegister', (req, res) => {
+  if (authToken) {
+    res.render('checkRegister');
+  } else {
+    res.redirect('/login');
+  }
+});
 
-// endpoints
+// ENDPOINTS
 app.post('/register', async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, checkAuth } = req.body;
 
     const newUser = {
       nombre: firstName,
       apellidos: lastName,
       correo: email,
-      contrasena: password
+      contrasena: password,
+      auth: checkAuth
     };
 
+    console.log(newUser);
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
 
     if (response.status === 200) {
@@ -390,7 +391,7 @@ app.post('/checkRegister', async (req, res) => {
 }
 });
 
-// Start server
+// START SERVER
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/login");
   console.log("API URL is " + API_URL);
