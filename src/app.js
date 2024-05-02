@@ -3,10 +3,7 @@ const axios = require('axios');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-<<<<<<< HEAD
 const ejs = require('ejs');
-=======
->>>>>>> origin/develop
 
 // invocamos a express
 const express = require("express");
@@ -189,12 +186,8 @@ app.post('/createUser', async (req, res) => {
     });
 
     // Verificar si se creó correctamente
-    if (response.status === 201) {
-<<<<<<< HEAD
+    if (response.status === 200) {
       res.redirect('/user');
-=======
-      res.render('create', { successMessage: 'Usuario creado' });      
->>>>>>> origin/develop
     } else {
       res.status(500).send('Error al crear el usuario');
     }
@@ -211,10 +204,6 @@ app.post('/createUser', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/develop
 app.post('/editUser', async (req, res) => {
   try {
     const email = req.body.email;
@@ -335,8 +324,6 @@ app.post('/getUser', async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-=======
 app.post('/getUserRegister', async (req, res) => {
   try {
     if (!authToken) {
@@ -403,7 +390,6 @@ app.post('/checkRegister', async (req, res) => {
 }
 });
 
->>>>>>> origin/develop
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/login");
