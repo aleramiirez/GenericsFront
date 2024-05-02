@@ -68,9 +68,10 @@ app.get('/checkRegister', (req, res) => {
   }
 });
 
-// ENDPOINTS
+// endpoints
 app.post('/register', async (req, res) => {
   try {
+ 
     const { firstName, lastName, email, password, checkAuth } = req.body;
 
     const newUser = {
@@ -78,12 +79,12 @@ app.post('/register', async (req, res) => {
       apellidos: lastName,
       correo: email,
       contrasena: password,
-      auth: checkAuth
+      mfaEnabled: checkAuth
     };
-
+ 
     console.log(newUser);
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
-
+ 
     if (response.status === 200) {
       res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
     } else {
