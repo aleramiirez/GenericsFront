@@ -88,59 +88,40 @@ app.get("/delete", (reg, res) => {
     res.redirect('/login');
   }
 });
-
-// endpoints
 app.post('/register', async (req, res) => {
   try {
-<<<<<<< HEAD
     const { firstName, lastName, email, password } = req.body;
-
-=======
-    // Obtener los datos del formulario desde el cuerpo de la solicitud
-    const { firstName, lastName, email, password, mfaEnabled  } = req.body;
  
-    // Crear un objeto con los datos del nuevo usuario
->>>>>>> origin/feature-alberto
     const newUser = {
       nombre: firstName,
       apellidos: lastName,
       correo: email,
       contrasena: password,
-      mfaEnabled : mfaEnabled
-  
-
     };
-
-<<<<<<< HEAD
-=======
  
->>>>>>> origin/feature-alberto
+    console.log(newUser);
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
-
+ 
     if (response.status === 200) {
-<<<<<<< HEAD
-      res.render('login');
-=======
-      authToken = await loginWithJwt(newUser.correo, newUser.contrasena);
-      
-      if (authToken) {
-        res.redirect('/home');
-      } else {
-        throw new Error('Token JWT no recibido');
-      }
->>>>>>> origin/feature-alberto
+      res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
     } else {
-      res.render('login');
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
-        res.status(500).send('Error interno del servidor: '+error.message);
+        console.log('Error interno del servidor: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo' });
+      } else if (error.response.status === 400) {
+        console.log('Error interno del cliente: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo' });
       } else {
-        res.status(400).send('Error interno del cliente: '+error.message);
+        console.log('Error inesperado: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });  
       }
     } else {
-      res.send('Error inesperado: '+error.message);
+      console.log('Error inesperado: '+error.message);
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }  
   }
 });
