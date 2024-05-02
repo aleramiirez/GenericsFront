@@ -71,7 +71,6 @@ app.get('/checkRegister', (req, res) => {
 // endpoints
 app.post('/register', async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
  
     const { firstName, lastName, email, password, checkAuth } = req.body;
 
@@ -79,7 +78,7 @@ app.post('/register', async (req, res) => {
       nombre: firstName,
       apellidos: lastName,
       correo: email,
-      contrasena: password,,
+      contrasena: password,
       auth: checkAuth
     };
  
