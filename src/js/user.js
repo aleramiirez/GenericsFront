@@ -93,6 +93,7 @@ function showContent(page) {
         </div>
       `;
       break;
+<<<<<<< HEAD
     //se 'consult':
     //content = `
     //  <link href="resourses/css/consult.css" rel="stylesheet" type="text/css" />
@@ -125,6 +126,54 @@ function showContent(page) {
     //  </div>
     //`;
     //break;
+=======
+    case 'consult':
+      content = `
+          <div class="consult">
+          <div class="form-container">
+            <form class="form" id="searchForm" action="/getUser" method="post">
+              <h1>Buscar Usuario</h1>
+              <div class="form-group">
+                <label for="email">Correo</label>
+                <input name="email" id="email" type="email" required>
+              </div>
+              <button type="submit" class="form-submit-btn">Buscar</button>
+            </form>
+          </div>
+          <div class="form-container">
+            <form class="form" id="userDataForm">
+              <h1>Datos del Usuario</h1>
+              <div class="form-group">
+                <label for="firstName">Nombre</label>
+                <input name="firstName" id="firstName" type="text">
+              </div>
+              <div class="form-group">
+                <label for="lastName">Apellidos</label>
+                <input name="lastName" id="lastName" type="text">
+              </div>
+              <div class="form-group">
+                <label for="age">Edad</label>
+                <input name="age" id="age" type="number">
+              </div>
+              <div class="form-group">
+                <label for="email2">Correo</label>
+                <input name="email" id="email2" type="email">
+              </div>
+              <div class="form-group">
+                <label for="address">Dirección</label>
+                <input name="address" id="address" type="text">
+              </div>
+              <div class="form-group">
+                <label for="mobile">Teléfono</label>
+                <input name="mobile" id="mobile" type="number">
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+      break;
+      
+>>>>>>> origin/develop
   }
 
   // Actualizar el contenido de <main>

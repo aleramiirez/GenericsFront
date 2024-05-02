@@ -3,7 +3,10 @@ const axios = require('axios');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+<<<<<<< HEAD
 const ejs = require('ejs');
+=======
+>>>>>>> origin/develop
 
 // invocamos a express
 const express = require("express");
@@ -43,6 +46,9 @@ let authToken;
 // establacer las rutas
 app.get('/login', (req, res) => {
   res.render('login');
+});
+app.get('/checkRegister', (req, res) => {
+  res.render('checkRegister');
 });
 app.get('/home', (req, res) => {
   if (authToken) {
@@ -184,7 +190,11 @@ app.post('/createUser', async (req, res) => {
 
     // Verificar si se creó correctamente
     if (response.status === 201) {
+<<<<<<< HEAD
       res.redirect('/user');
+=======
+      res.render('create', { successMessage: 'Usuario creado' });      
+>>>>>>> origin/develop
     } else {
       res.status(500).send('Error al crear el usuario');
     }
@@ -201,7 +211,10 @@ app.post('/createUser', async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/develop
 app.post('/editUser', async (req, res) => {
   try {
     const email = req.body.email;
@@ -322,6 +335,75 @@ app.post('/getUser', async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+app.post('/getUserRegister', async (req, res) => {
+  try {
+    if (!authToken) {
+      return res.status(401).send('No autorizado. Por favor, autentícate primero.');
+    }
+
+    // Llamar a la API de SpringBoot para obtener los usuarios con estado false
+    const response = await axios.get(`${API_URL}/pendientes`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
+
+    const userData = response.data;
+
+    // Verificar si se encontraron datos de usuarios con estado false
+    if (userData) {
+      // Enviar los datos de usuarios como respuesta en formato JSON
+      res.status(200).json(userData);
+    } else {
+      // Si no se encontraron usuarios, enviar un mensaje de error
+      res.status(404).send('Usuarios no encontrados');
+    }
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 500) {
+        res.status(500).send('Error interno del servidor: ' + error.message);
+      } else {
+        res.status(400).send('Error interno del cliente: ' + error.message);
+      }
+    } else {
+      res.send('Error inesperado: ' + error.message);
+    }
+  }
+});
+
+app.post('/checkRegister', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Llamar a la API de SpringBoot para aprobar el usuario
+    const response = await axios.put(`${API_URL}/aprobar/${email}?estado=true`, null, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+
+    // Verificar si se aprobó correctamente
+    if (response.status === 200) {
+        res.status(200).send('Usuario aprobado exitosamente');
+    } else {
+        res.status(500).send('Error al aprobar el usuario');
+    }
+} catch (error) {
+    if (error.response) {
+        if (error.response.status === 500) {
+            res.status(500).send('Error interno del servidor: ' + error.message);
+        } else {
+            res.status(400).send('Error interno del cliente: ' + error.message);
+        }
+    } else {
+        res.status(500).send('Error inesperado: ' + error.message);
+    }
+}
+});
+
+>>>>>>> origin/develop
 // Start server
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/login");
