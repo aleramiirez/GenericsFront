@@ -1,50 +1,43 @@
+const express = require("express");
+const bodyParser = require('body-parser');
+const expressSession = require("express-session");
+const flash = require('express-flash');
 const bcrypt = require("bcryptjs");
 const axios = require('axios');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const ejs = require('ejs');
+const dotenv = require("dotenv");
 
-// invocamos a express
-const express = require("express");
-const flash = require('express-flash');
+dotenv.config();
 const app = express();
 
-// seteamos urlencoded para capturar los datos del fomulario
+// MIDDLEWARES
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 app.use(bodyParser.json());
-
-// inovacmos a dontv
-const dotenv = require("dotenv");
-dotenv.config();
-
-// el directorxio public
-app.use("/resourses", express.static("src"));
-app.use("/resourses", express.static(__dirname + "/src"));
-
-// establacemos el motor de plantillas ejs
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
-// var de sesion
-const expressSession = require("express-session")
 app.use(expressSession({
   secret:"secret",
   resave:true,
   saveUninitialized:true
-}))
+}));
+app.use("/resourses", express.static("src"));
+app.use("/resourses", express.static(__dirname + "/src"));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
-const API_URL=process.env.API_URL;
-const PORT=process.env.PORT;
-const JWT_SECRET=process.env.JWT_SECRET;
+// VARIABLES
+const API_URL = process.env.API_URL;
+const PORT = process.env.PORT;
+const JWT_SECRET = process.env.JWT_SECRET;
 let authToken;
 
-// establacer las rutas
+// ROUTES
 app.get('/login', (req, res) => {
   res.render('login');
 });
-app.get('/checkRegister', (req, res) => {
-  res.render('checkRegister');
+app.get('/test', (req, res) => {
+  res.render('test');
 });
 app.get('/home', (req, res) => {
   if (authToken) {
@@ -60,20 +53,6 @@ app.get('/user', (req, res) => {
     res.redirect('/login');
   }
 });
-app.get("/create", (reg, res) => {
-  if (authToken) {
-    res.render('create');
-  } else {
-    res.redirect('/login');
-  }
-});
-app.get("/edite", (reg, res) => {
-  if (authToken) {
-    res.render('edite');
-  } else {
-    res.redirect('/login');
-  }
-});
 app.get("/consult", (reg, res) => {
   if (authToken) {
     res.render('consult');
@@ -81,30 +60,38 @@ app.get("/consult", (reg, res) => {
     res.redirect('/login');
   }
 });
-app.get("/delete", (reg, res) => {
+app.get('/checkRegister', (req, res) => {
   if (authToken) {
-    res.render('delete');
+    res.render('checkRegister');
   } else {
     res.redirect('/login');
   }
 });
+
+// endpoints
 app.post('/register', async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
  
+    const { firstName, lastName, email, password, checkAuth } = req.body;
+
     const newUser = {
       nombre: firstName,
       apellidos: lastName,
       correo: email,
-      contrasena: password,
+      contrasena: password,,
+      auth: checkAuth
     };
  
+    console.log(newUser);
     console.log(newUser);
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
  
     if (response.status === 200) {
       res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
+      res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
     } else {
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
       res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }
   } catch (error) {
@@ -115,11 +102,20 @@ app.post('/register', async (req, res) => {
       } else if (error.response.status === 400) {
         console.log('Error interno del cliente: '+error.message);
         res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo' });
+        console.log('Error interno del servidor: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo' });
+      } else if (error.response.status === 400) {
+        console.log('Error interno del cliente: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo' });
       } else {
+        console.log('Error inesperado: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });  
         console.log('Error inesperado: '+error.message);
         res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });  
       }
     } else {
+      console.log('Error inesperado: '+error.message);
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
       console.log('Error inesperado: '+error.message);
       res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
     }  
@@ -138,13 +134,19 @@ app.post('/auth', async (req, res) => {
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
-        res.status(500).send('Error interno del servidor: '+error.message);
+        console.log('Error interno del servidor: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo mas tarde!' });
+      } else if (error.response.status === 400) {
+        console.log('Error interno del cliente: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo mas tarde!' });
       } else {
-        res.status(400).send('Error interno del cliente: '+error.message);
+        console.log('Error inesperado: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo mas tarde!' });  
       }
     } else {
-      res.send('Error inesperado: '+error.message);
-    }
+      console.log('Error inesperado: '+error.message);
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo mas tarde!' });
+    }  
   }
 });
 
@@ -199,10 +201,10 @@ app.post('/createUser', async (req, res) => {
     });
 
     // Verificar si se creó correctamente
-    if (response.status === 201) {
-      res.render('create', { successMessage: 'Usuario creado' });      
+    if (response.status === 200) {
+      res.redirect('/user');
     } else {
-      res.render('create', { errorMessage: 'Error al crear el usuario' });
+      res.status(500).send('Error al crear el usuario');
     }
   } catch (error) {
     if (error.response) {
@@ -246,7 +248,7 @@ app.post('/editUser', async (req, res) => {
 
     // Verificar si se editó correctamente
     if (response.status === 200) {
-      res.redirect('/edite');
+      res.redirect('/user');
     } else {
       res.status(500).send('Error al editar el usuario');
     }
@@ -281,7 +283,7 @@ app.post('/deleteUser', async (req, res) => {
 
     // Verificar si se eliminó correctamente
     if (response.status === 200) {
-      res.redirect('/delete');
+      res.redirect('/user');
     } else {
       res.status(500).send('Error al eliminar el usuario');
     }
@@ -403,7 +405,7 @@ app.post('/checkRegister', async (req, res) => {
 }
 });
 
-// Start server
+// START SERVER
 app.listen(PORT, (reg, res) => {
   console.log("Server host is http://localhost:"+PORT + "/login");
   console.log("API URL is " + API_URL);

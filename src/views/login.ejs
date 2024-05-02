@@ -35,6 +35,10 @@
                 <input name="password" id="password" type="password" placeholder="Contraseña" required/>
                 <input type="checkbox" name="mfaEnabled" value="true" id="mfaEnabled"> 2FA
 
+                  <select class="select" name="checkAuth" id="checkAuth">
+                    <option value="true">Autoidentificación Activado</option>
+                    <option value="false">Autoidentificación Desactivado</option>
+                  </select>
                 <button>Crear</button>
               </form>
             </div>
@@ -65,13 +69,8 @@
           </div>
         </main>
         <footer>
-          <div class="footer">
-            <div class="copyright">
-            </div>
-          </div>
         </footer>
       </div>
-    </div>
     </div>
     <script src="/resourses/js/login.js"></script>
   </body>

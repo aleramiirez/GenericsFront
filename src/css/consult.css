@@ -88,6 +88,15 @@
   background-color: transparent;
 }
 
+.form-group select {
+  width: 100%;
+  padding: 11px 16px;
+  border-radius: 8px;
+  color: #2d2d2d;
+  background-color: transparent;
+  border: 1px solid #414141;
+}
+
 .form-container .form-group input::placeholder {
   opacity: 0.5;
 }
