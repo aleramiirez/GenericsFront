@@ -112,31 +112,43 @@ app.post('/register', async (req, res) => {
 app.post('/auth', async (req, res) => {
   try {
     const { email, password } = req.body;
-    authToken = await loginWithJwt(email, password);
-    if (authToken) {
-      res.redirect('/home');
+    const response = await loginWithJwt(email, password);
+
+    if (response.mfaEnabled) {
+      // Si la autenticación de 2FA está habilitada, redirecciona a la página de verificación de 2FA
+      res.redirect('/verify-2fa');
     } else {
-      throw new Error('Token JWT no recibido');
+      // Si la autenticación de 2FA no está habilitada, redirecciona a la página de inicio
+      res.redirect('/home');
     }
   } catch (error) {
-    if (error.response) {
-      if (error.response.status === 500) {
-        console.log('Error interno del servidor: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo mas tarde!' });
-      } else if (error.response.status === 400) {
-        console.log('Error interno del cliente: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo mas tarde!' });
-      } else {
-        console.log('Error inesperado: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo mas tarde!' });  
-      }
-    } else {
-      console.log('Error inesperado: '+error.message);
-      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo mas tarde!' });
-    }  
+    // Manejo de errores
   }
 });
 
+// Nueva ruta para la verificación de 2FA
+app.get('/verify-2fa', (req, res) => {
+  res.render('verify-2fa'); // Renderiza la página de verificación de 2FA
+});
+
+// Procesa la verificación de 2FA
+app.post('/verify-2fa', async (req, res) => {
+  try {
+    const { code } = req.body;
+    // Envía el código de verificación al backend para su validación
+    const response = await axios.post('/verify-2fa', { code });
+    
+    // Si la verificación es exitosa, redirecciona a la página de inicio
+    if (response.status === 200) {
+      res.redirect('/home');
+    } else {
+      // Si la verificación falla, muestra un mensaje de error
+      res.render('verify-2fa', { error: 'Código incorrecto' });
+    }
+  } catch (error) {
+    // Manejo de errores
+  }
+});
 async function loginWithJwt(correo, contrasena) {
   try {
     const response = await axios.post("http://localhost:8080/auth/login", {

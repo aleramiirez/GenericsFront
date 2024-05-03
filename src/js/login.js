@@ -9,3 +9,8 @@ signUpButton.addEventListener('click', () => {
 signInButton.addEventListener('click', () => {
 	container.classList.remove("right-panel-active");
 });
+
+enable2FAButton.addEventListener('click', () => {
+	const twoFABox = document.getElementById('2FABox');
+    twoFABox.classList.add('ready');
+})
