@@ -7,6 +7,10 @@
   margin: auto;
 }
 
+h1 {
+  color: white;
+}
+
 .wheel,
 .hamster,
 .hamster div,
