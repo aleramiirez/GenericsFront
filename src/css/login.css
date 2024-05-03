@@ -54,10 +54,10 @@ form {
 	background-color: #FFFFFF;
 	display: flex;
 	align-items: center;
-	justify-content: start;
+	justify-content: center;
 	flex-direction: column;
 	padding: 0 50px;
-	/*height: 100px;*/
+	height: 100px;
 	text-align: center;
 }
 
@@ -200,12 +200,4 @@ input {
 
 .container.right-panel-active .overlay-right {
 	transform: translateX(20%);
-}
-
-#twoFAFormHolder {
-	display: none !important;
-}
-
-.ready #twoFAFormHolder {
-	display: flex !important;
 }
