@@ -53,13 +53,6 @@ app.get('/user', (req, res) => {
     res.redirect('/login');
   }
 });
-app.get("/consult", (reg, res) => {
-  if (authToken) {
-    res.render('consult');
-  } else {
-    res.redirect('/login');
-  }
-});
 app.get('/checkRegister', (req, res) => {
   if (authToken) {
     res.render('checkRegister');
@@ -173,9 +166,10 @@ app.post('/createUser', async (req, res) => {
       correo: email,
       direccion: address,
       telefono: mobile,
-      contrasena: password
+      contrasena: password,
     };
 
+    console.log(newUser);
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
