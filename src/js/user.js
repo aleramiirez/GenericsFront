@@ -6,55 +6,48 @@ function showContent(page) {
   switch (page) {
     case 'create':
       content = `
-        <div class="cont">
-          <h1>Crear Usuario</h1>
-          <form class="form" action="/createUser" method="post">
+      <form class="form" action="/createUser" method="post">
+        <h1>Crear Usuario</h1>
+          <div class="input-form">
             <div class="form-group">
               <label for="firstName">Nombre</label>
               <input name="firstName" id="firstName" type="text" required>
             </div>
-            <div class="form-group">
-              <label for="lastName">Apellidos</label>
-              <input name="lastName" id="lastName" type="text" required>
-            </div>
-            <div class="form-group">
-              <label for="age">Edad</label>
-              <input name="age" id="age" type="number" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Correo</label>
-              <input name="email" id="email" type="email" required>
-            </div>
-            <div class="form-group">
-              <label for="address">Direccion</label>
-              <input name="address" id="address" type="text" required>
-            </div>
-            <div class="form-group">
-              <label for="mobile">Telefono</label>
-              <input name="mobile" id="mobile" type="number" required>
-            </div>
-            <div class="form-group">
-              <label for="password">Contraseña</label>
-              <input name="password" id="password" type="password" required>
-            </div>
-            <div class="form-group">
-              <label for="searchBy">Autoidentificación</label>
-              <select name="checkAuth" id="checkAuth" required>
-                <option value="auth">Activado</option>
-                <option value="NOauth">Desactivado</option>
-              </select>
-            </div>
-            <button type="submit" class="form-submit-btn">Crear</button>
-          </form>
+          <div class="form-group">
+            <label for="lastName">Apellidos</label>
+            <input name="lastName" id="lastName" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="age">Edad</label>
+            <input name="age" id="age" type="number" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Correo</label>
+            <input name="email" id="email" type="email" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Direccion</label>
+            <input name="address" id="address" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="mobile">Telefono</label>
+            <input name="mobile" id="mobile" type="number" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input name="password" id="password" type="password" required>
+          </div>
         </div>
+        <button type="submit" class="form-submit-btn">Crear</button>
+      </form>
       `;
       break;
 
     case 'edit':
       content = `
-        <div class="cont">
+        <form class="form" action="/editUser" method="post">
           <h1>Editar Usuario</h1>
-          <form class="form" action="/editUser" method="post">
+          <div class="input-form">
             <div class="form-group">
               <label for="email">Correo del usuario a editar</label>
               <input name="email" id="email" type="email" required>
@@ -79,57 +72,52 @@ function showContent(page) {
               <label for="mobile">Telefono</label>
               <input name="mobile" id="mobile" type="number" required>
             </div>
-            <button type="submit" class="form-submit-btn">Editar</button>
-          </form>
-        </div>
+          </div>
+          <button type="submit" class="form-submit-btn">Editar</button>
+        </form>
         `;
       break;
 
     case 'delete':
       content = `
-        <div class="cont">
+        <form class="form" action="/deleteUser" method="post">
           <h1>Eliminar Usuario</h1>
-          <form class="form form2" action="/deleteUser" method="post">
-            <div class="form-group">
-              <label for="email">Correo</label>
-              <input name="email" id="email" type="email" required>
-            </div>
-            <button type="submit" class="form-submit-btn">Eliminar</button>
-          </form>
-        </div>
+          <div class="input-form form2">
+              <div class="form-group">
+                <label for="email">Correo</label>
+                <input name="email" id="email" type="email" required>
+              </div>
+          </div>
+          <button type="submit" class="form-submit-btn">Eliminar</button>
+        </form>
         `;
       break;
       
     case 'consult':
       content = `
-      <div class="cont">
-          <h1>Buscar Usuario</h1>
-          <form class="form" id="searchForm" action="/getUser" method="post">
-            <div class="form-group">
-                <label for="searchBy">Buscar por:</label>
-                <select name="searchBy" id="searchBy" required>
-                    <option value="nombre">Nombre</option>
-                    <option value="apellidos">Apellidos</option>
-                    <option value="edad">edad</option>
-                    <option value="correo">Correo</option>
-                    <option value="direccion">Direccion</option>
-                    <option value="telefono">Telefono</option>
-                </select>
+      <form class="form" id="searchForm" action="/getUser" method="post">
+        <h1>Buscar Usuario</h1>
+        <div class="input-form">
+          <div class="form-group">
+            <label for="searchBy">Buscar por:</label>
+              <select name="searchBy" id="searchBy" required>
+                <option value="nombre">Nombre</option>
+                <option value="apellidos">Apellidos</option>
+                <option value="edad">edad</option>
+                <option value="correo">Correo</option>
+                <option value="direccion">Direccion</option>
+                <option value="telefono">Telefono</option>
+              </select>
             </div>
             <div class="form-group">
-                <label for="searchTerm">Término de búsqueda:</label>
-                <input name="searchTerm" id="searchTerm" type="text" required>
+              <label for="searchTerm">Término de búsqueda:</label>
+              <input name="searchTerm" id="searchTerm" type="text" required>
             </div>
-            <button type="submit" class="form-submit-btn">Buscar</button>
-          </form>
+          </div>
+          <button type="submit" class="form-submit-btn">Buscar</button>
         </div>
-      <div class="card-container">
-        
-      </div>
-    </div>
+      </form>
       `;
-      content += `<link href="resourses/css/index.css" rel="stylesheet" type="text/css"/>`;
-      content += `<link href="resourses/css/consult.css" rel="stylesheet" type="text/css"/>`;
       break;
   }
 
@@ -178,11 +166,11 @@ function showContent(page) {
                 <i class="fas fa-user"></i>
               </div>
               <div class="data">
+                <p id="name">${userData.nombre} ${userData.apellidos}</p>
                 <p class="heading" id="correo">${userData.correo}</p>
                 <p class="heading" id="age">${userData.edad} años</p>
                 <p class="heading" id="address">${userData.direccion}</p>
                 <p class="heading" id="mobile">${userData.telefono}</p>
-                <p id="name">${userData.nombre} ${userData.apellidos}</p>
               </div>
             `;
 
@@ -197,5 +185,10 @@ function showContent(page) {
         console.error('Error:', error);
       }
     });
+  } else {
+    // Si no estás en la página de consulta, limpiar el contenedor de tarjetas
+    const dataContainer = document.querySelector('.card-container');
+    dataContainer.innerHTML = '';
   }
+  
 }
