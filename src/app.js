@@ -62,11 +62,13 @@ app.get('/checkRegister', (req, res) => {
     res.redirect('/login');
   }
 });
+app.get('/registrationSuccess', (req, res) => {
+  res.render('registrationSuccess', { message: 'Registro exitoso, puedes volver a la página de inicio' });
+});
 
-// endpoints
+
 app.post('/register', async (req, res) => {
   try {
-
     const { firstName, lastName, email, password, checkAuth } = req.body;
 
     const newUser = {
@@ -78,29 +80,35 @@ app.post('/register', async (req, res) => {
     };
 
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
-
     const userData = response.data;
+
     if (userData) {
       console.log("Response Data:", userData);
 
-      // Generamos el URL para el código QR compatible con Google Authenticator
-      const otpAuthUrl = speakeasy.otpauthURL({
-        secret: response.data.secret,
-        label: `${email}`,
-        issuer: 'GENERICS'
-      });
+      if (checkAuth && userData.secret) {
+        // Generamos el URL para el código QR compatible con Google Authenticator
+        const otpAuthUrl = speakeasy.otpauthURL({
+          secret: userData.secret,
+          label: `${email}`,
+          issuer: 'GENERICS'
+        });
 
-      // Generamos el código QR usando el URL generado
-      qr.toDataURL(otpAuthUrl, (err, qrCode) => {
-        if (err) {
-          console.error('Error al generar el código QR:', err);
-          res.render('check', { message: 'Oops! Algo ha ido mal al generar el código QR' });
-        } else {
-          res.render('check', { message: 'Registraste de forma correcta, puedes volver a la página de inicio', qrCode: qrCode });
-        }
-      });
+        // Generamos el código QR usando el URL generado
+        qr.toDataURL(otpAuthUrl, (err, qrCode) => {
+          if (err) {
+            console.error('Error al generar el código QR:', err);
+            res.render('check', { message: 'Oops! Algo ha ido mal al generar el código QR' });
+          } else {
+            res.render('check', { message: 'Registraste de forma correcta, puedes volver a la página de inicio', qrCode: qrCode });
+          }
+        });
+      } else {
+        // Renderizar la página de registro exitoso sin código QR si el 2FA no está activado o no hay secret
+        res.render('registrationSuccess', { message: 'Registraste de forma correcta, puedes volver a la página de inicio' });
+      }
     }
   } catch (error) {
+    // Manejo de errores
     if (error.response) {
       if (error.response.status === 500) {
         console.log('Error interno del servidor: '+error.message);
@@ -115,9 +123,10 @@ app.post('/register', async (req, res) => {
     } else {
       console.log('Error inesperado: '+error.message);
       res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
-    }  
+    }
   }
 });
+
 
 app.post('/auth', async (req, res) => {
   try {

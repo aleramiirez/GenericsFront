@@ -35,10 +35,11 @@
                   <input name="lastName" id="lastName" type="text" placeholder="Apellidos" required/>
                   <input name="email" id="email" type="email" placeholder="Correo" required/>
                   <input name="password" id="password" type="password" placeholder="Contraseña" required/>
-                  <select class="select" name="checkAuth" id="checkAuth">
-                    <option value="true">Autoidentificación Activado</option>
-                    <option value="false">Autoidentificación Desactivado</option>
-                  </select>
+                  <p id="txt2fa">Doble Autenticacion:</p>
+                  <label class="switch">
+                    <input type="checkbox" name="checkAuth" class="checkbox" value="true">
+                    <div class="slider"></div>
+                </label>
                   <button>Crear</button>
                 </form>
               </div>
