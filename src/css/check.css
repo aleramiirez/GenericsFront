@@ -257,3 +257,7 @@
   text-align: center;
   gap: 100px;
 }
+.loader img {
+  width: 30%;
+  margin: auto;
+}
