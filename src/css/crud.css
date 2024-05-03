@@ -153,9 +153,7 @@ form-group input::placeholder {
   min-width: calc(var(--index) * 6);
   height: calc(var(--index) * 1.5);
   color: #2d2d2d;
-  z-index: 1;
   background: #ffffff;
-  position: relative;
   box-shadow: 3px 4px 7px -3px #0000001a;
   transition: all 250ms;
   overflow: hidden;
@@ -182,6 +180,7 @@ form-group input::placeholder {
   gap: 15px;
   align-items: center;
   max-width: 300px;
+  min-width: 200px;
   height: auto;
   border-radius: 15px;
   background-color: #ffffff;
@@ -208,6 +207,7 @@ form-group input::placeholder {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
 }
 
 .card p:not(.heading) {

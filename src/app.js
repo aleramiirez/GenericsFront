@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const ejs = require('ejs');
 const dotenv = require("dotenv");
+const qr = require('qrcode');
+const speakeasy = require('speakeasy');
 
 dotenv.config();
 const app = express();
@@ -64,7 +66,7 @@ app.get('/checkRegister', (req, res) => {
 // endpoints
 app.post('/register', async (req, res) => {
   try {
- 
+
     const { firstName, lastName, email, password, checkAuth } = req.body;
 
     const newUser = {
@@ -74,14 +76,29 @@ app.post('/register', async (req, res) => {
       contrasena: password,
       mfaEnabled: checkAuth
     };
- 
-    console.log(newUser);
+
     const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
- 
-    if (response.status === 200) {
-      res.render('check', { message: 'Registraste de forma correcta, puedes volver a pagina de inicio' });
-    } else {
-      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
+
+    const userData = response.data;
+    if (userData) {
+      console.log("Response Data:", userData);
+
+      // Generamos el URL para el código QR compatible con Google Authenticator
+      const otpAuthUrl = speakeasy.otpauthURL({
+        secret: response.data.secret,
+        label: `${email}`,
+        issuer: 'GENERICS'
+      });
+
+      // Generamos el código QR usando el URL generado
+      qr.toDataURL(otpAuthUrl, (err, qrCode) => {
+        if (err) {
+          console.error('Error al generar el código QR:', err);
+          res.render('check', { message: 'Oops! Algo ha ido mal al generar el código QR' });
+        } else {
+          res.render('check', { message: 'Registraste de forma correcta, puedes volver a la página de inicio', qrCode: qrCode });
+        }
+      });
     }
   } catch (error) {
     if (error.response) {
@@ -104,45 +121,32 @@ app.post('/register', async (req, res) => {
 
 app.post('/auth', async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const response = await loginWithJwt(email, password);
+    const { email, password, otp } = req.body;
+    authToken = await loginWithJwt(email, password, otp);
 
-    if (response.mfaEnabled) {
-      // Si la autenticación de 2FA está habilitada, redirecciona a la página de verificación de 2FA
-      res.redirect('/verify-2fa');
-    } else {
-      // Si la autenticación de 2FA no está habilitada, redirecciona a la página de inicio
+    if (authToken) {
       res.redirect('/home');
+    } else {
+      console.log('Código OTP incorrecto. Por favor, inténtalo de nuevo.: '+error.message);
+      throw new Error('Token JWT no recibido');
     }
   } catch (error) {
-    // Manejo de errores
+    if (error.response) {
+      if (error.response.status === 500) {
+        console.log('Error interno del servidor: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo mas tarde!' });
+      } else if (error.response.status === 400) {
+        console.log('Error interno del cliente: '+error.message);
+        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo mas tarde!' });
+      }
+    } else {
+      console.log('Error inesperado: '+error.message);
+      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo mas tarde!' });
+    }  
   }
 });
 
-// Nueva ruta para la verificación de 2FA
-app.get('/verify-2fa', (req, res) => {
-  res.render('verify-2fa'); // Renderiza la página de verificación de 2FA
-});
-
-// Procesa la verificación de 2FA
-app.post('/verify-2fa', async (req, res) => {
-  try {
-    const { code } = req.body;
-    // Envía el código de verificación al backend para su validación
-    const response = await axios.post('/verify-2fa', { code });
-    
-    // Si la verificación es exitosa, redirecciona a la página de inicio
-    if (response.status === 200) {
-      res.redirect('/home');
-    } else {
-      // Si la verificación falla, muestra un mensaje de error
-      res.render('verify-2fa', { error: 'Código incorrecto' });
-    }
-  } catch (error) {
-    // Manejo de errores
-  }
-});
-async function loginWithJwt(correo, contrasena) {
+async function loginWithJwt(correo, contrasena, otp) {
   try {
     const response = await axios.post("http://localhost:8080/auth/login", {
       correo: correo,
@@ -155,10 +159,30 @@ async function loginWithJwt(correo, contrasena) {
     });
 
     if (response.status === 200) {
-      authToken = response.data.token;
+      const data = response.data;
+      console.log(data);
+
+      if (data.mfaEnabled) {
+        const secretImageUri = data.secretImageUri;
+        if (!secretImageUri) {
+          throw new Error('El servidor no proporcionó el URI de la imagen secreta para 2FA.');
+        }
+        
+        const tokenValidates = speakeasy.totp.verify({
+          secret: secretImageUri,
+          encoding: 'ascii',
+          token: otp
+        });
+
+        if (!tokenValidates) {
+          throw new Error('Código OTP incorrecto. Por favor, inténtalo de nuevo.');
+        }
+      }
+
+      const authToken = data.token;
       return authToken;
     } else {
-      throw new Error('Failed to login with JWT');
+      throw new Error('Fallo al iniciar sesión con JWT');
     }
   } catch (error) {
     throw error;
@@ -181,7 +205,6 @@ app.post('/createUser', async (req, res) => {
       contrasena: password,
     };
 
-    console.log(newUser);
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
