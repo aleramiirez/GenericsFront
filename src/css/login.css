@@ -57,7 +57,7 @@ form {
 	justify-content: center;
 	flex-direction: column;
 	padding: 0 50px;
-	height: 100px;
+	height: 100%;
 	text-align: center;
 }
 
@@ -85,7 +85,7 @@ input {
 	overflow: hidden;
 	width: 768px;
 	max-width: 100%;
-	min-height: 600px;
+	min-height: 480px;
 }
 
 .form-container {
@@ -93,8 +93,6 @@ input {
 	top: 0;
 	height: 100%;
 	transition: all 0.6s ease-in-out;
-	display: flex;
-	flex-direction: column;
 }
 
 .sign-in-container {
