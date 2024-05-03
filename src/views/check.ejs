@@ -45,6 +45,9 @@
               </div>
               <div class="spoke"></div>
             </div>
+            <% if (qrCode) { %>
+              <img src="<%= qrCode %>" alt="Código QR">
+            <% } %>
             <a class="menu-text" href="/login">Pagina de inicio</a></li>
           </div>
         </main>
