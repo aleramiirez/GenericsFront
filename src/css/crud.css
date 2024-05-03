@@ -166,12 +166,13 @@ form-group input::placeholder {
 }
 
 .card-container {
-  width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 50px;
-  margin: 15px;
+  margin: 15px auto;
 }
 
 .card {
