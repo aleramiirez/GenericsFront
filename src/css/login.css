@@ -9,7 +9,6 @@
   font-weight:900;
   letter-spacing: 0.5em;
 	font-size: 5em;
-	color: white;
 }
 p {
 	font-size: 14px;
@@ -203,10 +202,10 @@ input {
 
 .checkbox {
 	display: none;
-  }
-  
-  .slider {
-	width: 60px;
+}
+
+.slider {
+  width: 60px;
 	height: 30px;
 	background-color: lightgray;
 	border-radius: 20px;
@@ -218,9 +217,9 @@ input {
 	box-shadow: 0 0 10px 0 rgb(0, 0, 0, 0.25) inset;
 	cursor: pointer;
 	margin-bottom: 15%;
-  }
+}
   
-  .slider::before {
+.slider::before {
 	content: '';
 	display: block;
 	width: 100%;
@@ -230,23 +229,23 @@ input {
 	border-radius: 20px;
 	transition: .3s;
 	box-shadow: 0 0 10px 3px rgb(0, 0, 0, 0.25);
-  }
+}
   
-  .checkbox:checked ~ .slider::before {
+.checkbox:checked ~ .slider::before {
 	transform: translateX(30px);
 	box-shadow: 0 0 10px 3px rgb(0, 0, 0, 0.25);
-  }
+}
   
-  .checkbox:checked ~ .slider {
+.checkbox:checked ~ .slider {
 	background-color: #2196F3;
-  }
+}
   
-  .checkbox:active ~ .slider::before {
+.checkbox:active ~ .slider::before {
 	transform: translate(0);
-  }
+}
 
-  #txt2fa {
-	color: black;
-	margin-bottom: 2%;
-	margin-top: 3%;
-  }
+#txt2fa {
+	color: #333;
+	font-size: 14px;
+	margin: 15px 0;
+}
