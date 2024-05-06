@@ -1,3 +1,9 @@
+main {
+  gap: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .container {
   min-width: 800px;
   min-height: 550px;
@@ -29,15 +35,15 @@
   padding: 40px;
   width: 100%;
   margin: auto;
+  text-align: center;
 }
-.cont {
+.form {
   display: flex;
   flex-direction: column;
-  text-align: center;
   gap: 40px;
 }
 
-.form {
+.input-form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
@@ -147,9 +153,7 @@ form-group input::placeholder {
   min-width: calc(var(--index) * 6);
   height: calc(var(--index) * 1.5);
   color: #2d2d2d;
-  z-index: 1;
   background: #ffffff;
-  position: relative;
   box-shadow: 3px 4px 7px -3px #0000001a;
   transition: all 250ms;
   overflow: hidden;
@@ -157,4 +161,60 @@ form-group input::placeholder {
 .form-menu-nav-text:hover {
   background-color: #40c9ff;
   color: #ffffff;
+}
+
+.card-container {
+  max-width: 800px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+  margin: 15px auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 15px;
+  align-items: center;
+  max-width: 300px;
+  min-width: 200px;
+  height: auto;
+  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 5px 5px 15px #bebebe,
+            -5px -5px 15px #ffffff;
+}
+
+.heading {
+  text-transform: capitalize;
+}
+
+.icon {
+  align-items: center;
+  margin: 5%;
+}
+
+.card i.fas.fa-user {
+  font-size: 100px; 
+  color: #000000; 
+}
+
+.card .data {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.card p:not(.heading) {
+  font-size: 15px;
+}
+
+.card p:first-child {
+  color: #e81cff;
+  font-weight: 700;
 }

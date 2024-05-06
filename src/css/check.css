@@ -7,6 +7,10 @@
   margin: auto;
 }
 
+h1 {
+  color: white;
+}
+
 .wheel,
 .hamster,
 .hamster div,
@@ -256,4 +260,8 @@
   flex-direction: column;
   text-align: center;
   gap: 100px;
+}
+.loader img {
+  width: 30%;
+  margin: auto;
 }

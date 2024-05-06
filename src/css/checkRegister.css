@@ -2,20 +2,25 @@
     width: 220px;
     height: 200px;
     border-radius: 30px;
-    background: #e0e0e0;
-    box-shadow: 15px 15px 30px #bebebe,
-              -15px -15px 30px #ffffff;
-    padding: 1%;
+    background: #fdfdfd;
+    box-shadow: 10px 15px 30px #bebebe,
+              -1px -1px 30px #ffffff;
+    padding: 5%;
     display: flex; /* Agregado */
     flex-direction: column; /* Agregado */
     justify-content: space-between; /* Agregado */
     align-items: center; /* Agregado */
+    margin-bottom: 30px;
 }
 
 .card-container {
     display: flex;
-    flex-direction: row;
-    gap: 5%;
+    flex-wrap: wrap; /* Hacer que las cartas se envuelvan automáticamente */
+    justify-content: space-between; /* Espacio uniforme entre las cartas */
+    max-width: 960px; /* Ancho máximo del contenedor de cartas */
+    margin: 0 auto; /* Centrar el contenedor de cartas en la página */
+    padding: 20px; /* Espacio entre el borde del contenedor y las cartas */
+    margin-bottom: 40px;
 }
 
 .icon {
@@ -41,7 +46,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-top: 10%;
 }
 
