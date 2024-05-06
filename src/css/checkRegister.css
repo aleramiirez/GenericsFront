@@ -1,26 +1,26 @@
 .card {
     width: 220px;
-    height: 200px;
+    height: 210px;
     border-radius: 30px;
     background: #fdfdfd;
     box-shadow: 10px 15px 30px #bebebe,
               -1px -1px 30px #ffffff;
     padding: 5%;
-    display: flex; /* Agregado */
-    flex-direction: column; /* Agregado */
-    justify-content: space-between; /* Agregado */
-    align-items: center; /* Agregado */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    align-items: center; 
     margin-bottom: 30px;
 }
 
 .card-container {
     display: flex;
-    flex-wrap: wrap; /* Hacer que las cartas se envuelvan automáticamente */
-    justify-content: space-between; /* Espacio uniforme entre las cartas */
-    max-width: 960px; /* Ancho máximo del contenedor de cartas */
-    margin: 0 auto; /* Centrar el contenedor de cartas en la página */
-    padding: 20px; /* Espacio entre el borde del contenedor y las cartas */
+    flex-wrap: wrap; 
+    max-width: 1100px;
+    margin: 0 auto; 
+    padding: 20px; 
     margin-bottom: 40px;
+    gap: 5%;
 }
 
 .icon {
@@ -65,7 +65,6 @@
 .btn-circle.btn-lg {
     width: 40px; 
     height: 40px; 
-    padding: 8px 14px; 
     font-size: 16px; 
     line-height: 1.33;
     border-radius: 20px; 
