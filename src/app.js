@@ -38,9 +38,6 @@ let authToken;
 app.get('/login', (req, res) => {
   res.render('login');
 });
-app.get('/test', (req, res) => {
-  res.render('test');
-});
 app.get('/home', (req, res) => {
   if (authToken) {
     res.render('home');
@@ -108,7 +105,6 @@ app.post('/register', async (req, res) => {
       }
     }
   } catch (error) {
-    // Manejo de errores
     if (error.response) {
       if (error.response.status === 500) {
         console.log('Error interno del servidor: '+error.message);
@@ -169,16 +165,14 @@ async function loginWithJwt(correo, contrasena, otp) {
 
     if (response.status === 200) {
       const data = response.data;
-      console.log(data);
 
       if (data.mfaEnabled) {
-        const secretImageUri = data.secretImageUri;
-        if (!secretImageUri) {
+        if (!data.secretImageUri) {
           throw new Error('El servidor no proporcionó el URI de la imagen secreta para 2FA.');
         }
         
         const tokenValidates = speakeasy.totp.verify({
-          secret: secretImageUri,
+          secret: data.secretImageUri,
           encoding: 'ascii',
           token: otp
         });
