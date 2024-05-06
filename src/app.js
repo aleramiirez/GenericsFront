@@ -220,7 +220,7 @@ app.post('/createUser', async (req, res) => {
     });
 
     // Verificar si se creó correctamente
-    if (response.status === 200) {
+    if (response.status === 201) {
       res.redirect('/user');
     } else {
       res.status(500).send('Error al crear el usuario');
