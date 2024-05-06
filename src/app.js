@@ -8,10 +8,9 @@ const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const ejs = require('ejs');
 const dotenv = require("dotenv");
- 
 const qr = require('qrcode');
 const speakeasy = require('speakeasy');
-
+ 
 dotenv.config();
 const app = express();
  
@@ -63,13 +62,11 @@ app.get('/checkRegister', (req, res) => {
     res.redirect('/login');
   }
 });
- 
-// endpoints
 app.get('/registrationSuccess', (req, res) => {
   res.render('registrationSuccess', { message: 'Registro exitoso, puedes volver a la página de inicio' });
 });
-
-
+ 
+ 
 app.post('/register', async (req, res) => {
   try {
     const { firstName, lastName, email, password, checkAuth } = req.body;
@@ -81,18 +78,13 @@ app.post('/register', async (req, res) => {
       contrasena: password,
       mfaEnabled: checkAuth
     };
-
-    const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
  
-    if (response.status === 200) {
-      res.render('check', { message: 'Tu registro se ha completado. Espera a lo aceptemos' });
-    } else {
-      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
+    const response = await axios.post(`http://localhost:8080/auth/register`, newUser);
     const userData = response.data;
-
+ 
     if (userData) {
       console.log("Response Data:", userData);
-
+ 
       if (checkAuth && userData.secret) {
         // Generamos el URL para el código QR compatible con Google Authenticator
         const otpAuthUrl = speakeasy.otpauthURL({
@@ -100,7 +92,7 @@ app.post('/register', async (req, res) => {
           label: `${email}`,
           issuer: 'GENERICS'
         });
-
+ 
         // Generamos el código QR usando el URL generado
         qr.toDataURL(otpAuthUrl, (err, qrCode) => {
           if (err) {
@@ -116,6 +108,7 @@ app.post('/register', async (req, res) => {
       }
     }
   } catch (error) {
+    // Manejo de errores
     if (error.response) {
       if (error.response.status === 500) {
         console.log('Error interno del servidor: '+error.message);
@@ -134,13 +127,12 @@ app.post('/register', async (req, res) => {
   }
 });
  
-
-
+ 
 app.post('/auth', async (req, res) => {
   try {
     const { email, password, otp } = req.body;
     authToken = await loginWithJwt(email, password, otp);
-
+ 
     if (authToken) {
       res.redirect('/home');
     } else {
@@ -163,8 +155,6 @@ app.post('/auth', async (req, res) => {
   }
 });
  
-async function loginWithJwt(correo, contrasena) {
-
 async function loginWithJwt(correo, contrasena, otp) {
   try {
     const response = await axios.post("http://localhost:8080/auth/login", {
@@ -180,24 +170,24 @@ async function loginWithJwt(correo, contrasena, otp) {
     if (response.status === 200) {
       const data = response.data;
       console.log(data);
-
+ 
       if (data.mfaEnabled) {
         const secretImageUri = data.secretImageUri;
         if (!secretImageUri) {
           throw new Error('El servidor no proporcionó el URI de la imagen secreta para 2FA.');
         }
-        
+       
         const tokenValidates = speakeasy.totp.verify({
           secret: secretImageUri,
           encoding: 'ascii',
           token: otp
         });
-
+ 
         if (!tokenValidates) {
           throw new Error('Código OTP incorrecto. Por favor, inténtalo de nuevo.');
         }
       }
-
+ 
       const authToken = data.token;
       return authToken;
     } else {
