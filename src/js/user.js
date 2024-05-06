@@ -1,5 +1,5 @@
 function showContent(page) {
-  var mainContent = document.getElementById("mainContent");
+  var mainContent = document.getElementById("formContent");
   var content = "";
 
   // Dependiendo de la opción seleccionada, cargar el contenido apropiado
@@ -119,8 +119,13 @@ function showContent(page) {
       </form>
       `;
       break;
-  }
 
+    case 'prove':
+      content = `
+        <h1>Aprobar Usuario</h1>
+      `;
+      break;
+  }
   // Actualizar el contenido de <main>
   mainContent.innerHTML = content;
 
@@ -190,5 +195,111 @@ function showContent(page) {
     const dataContainer = document.querySelector('.card-container');
     dataContainer.innerHTML = '';
   }
+
   
+  if (page === 'prove') {
+    window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const response = await fetch('/getUserRegister', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al obtener los datos del usuario');
+      }
+
+      const userDataArray = await response.json();
+
+      if (userDataArray.length > 0) {
+        const dataContainer = document.querySelector('.card-container');
+        dataContainer.innerHTML = '';
+
+        userDataArray.forEach(userData => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+
+          card.innerHTML = `
+            <div class="icon">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="data">
+              <p id="name" class="heading">${userData.nombre} ${userData.apellidos}</p>
+              <p class="heading" id="correo">${userData.correo}</p>             
+            </div>
+            <div class="buttons">
+              <button type="button" id="true" class="btn btn-info btn-circle btn-lg"><i class="fas fa-check"></i></button>
+              <button type="button" id="false" class="btn btn-warning btn-circle btn-lg"><i class="fas fa-times"></i></button>
+            </div>
+          `;
+
+          dataContainer.appendChild(card);
+          // Agregar evento de clic al botón con id "true"
+          const approveButton = card.querySelector('#true');
+          approveButton.addEventListener('click', () => {
+            // Llamar a la función para aprobar el usuario
+            checkRegister(userData.correo);
+          });
+          // Agregar evento de clic al botón con id "false"
+          const deleteButton = card.querySelector('#false');
+          deleteButton.addEventListener('click', () => {
+            // Llamar a la función para eliminar el usuario
+            deleteUser(userData.correo);
+          });
+        });
+      } else {
+        alert('No hay solicitudes de registros');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    });
+    // Función para aprobar un usuario
+    async function checkRegister(email) {
+      try {
+          const response = await fetch('/checkRegister', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email: email }) // Pasar el correo del usuario a aprobar
+          });
+          if (!response.ok) {
+              throw new Error('Error al aprobar el usuario');
+          }
+          // Recargar la página después de aprobar el usuario
+          location.reload();
+      } catch (error) {
+          console.error('Error al aprobar el usuario:', error);
+          // Manejar el error según sea necesario
+      }
+    }
+
+    // Función para eliminar un usuario
+    async function deleteUser(email) {
+        try {
+            const response = await fetch('/deleteUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email }) // Pasar el correo del usuario a eliminar
+            });
+            if (!response.ok) {
+                throw new Error('Error al eliminar el usuario');
+            }
+            // Recargar la página después de eliminar el usuario
+            location.reload();
+        } catch (error) {
+            console.error('Error al eliminar el usuario:', error);
+            // Manejar el error según sea necesario
+        }
+    }
+  } else {
+    // Si no estás en la página de consulta, limpiar el contenedor de tarjetas
+    const dataContainer = document.querySelector('.card-container');
+    dataContainer.innerHTML = '';
+  }
 }

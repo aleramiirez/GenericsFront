@@ -219,8 +219,6 @@ form-group input::placeholder {
   font-weight: 700;
 }
 
-/** Input **/
-
 .form__group {
   position: relative;
   padding: 20px 0 0;
@@ -235,7 +233,7 @@ form-group input::placeholder {
   border-bottom: 2px solid #9b9b9b;
   outline: 0;
   font-size: 17px;
-  color: #000000;
+  color: #fff;
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
