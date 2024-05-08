@@ -1,4 +1,5 @@
 main {
+  margin: calc(var(--index) * 5);
   gap: 50px;
   display: flex;
   flex-direction: column;

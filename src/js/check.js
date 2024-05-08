@@ -63,7 +63,6 @@ function showContent(page) {
           <div class="content-error">
             <h2>Te registraste de forma correcta :)</h2>
             <p>Escanea codigo QR y espera que te acepten para iniciar sesion!</p>
-            <a class="back-button" href="/login">Pagina de inicio</a></li>
           </div>
         </div>
       `;
@@ -144,4 +143,46 @@ function showContent(page) {
   }
   // Actualizar el contenido de <main>
   mainContent.innerHTML = content;
+}
+
+async function check() {
+  const otp = document.getElementById('otp').value;
+
+  try {
+    const response = await fetch('/check-2fa', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ otp })
+    });
+
+    if (response.ok) {
+      location.href = '/login';
+    } else {
+      showToast('Error');
+    }
+  } catch (error) {
+    showToast('Error');
+  }
+}
+
+function showToast(message) {
+  let toastBox = document.getElementById('toastBox');
+  let toast = document.createElement('div');
+  toast.classList.add('toast');
+  let content = "";
+
+  switch (message) {
+    case 'Error':
+      content = '<i class="fa-solid fa-circle-xmark"></i> Código OTP incorrecto. Por favor, inténtalo de nuevo.';
+      break;
+  }
+
+  toast.innerHTML = content;
+  toastBox.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 6000);
 }

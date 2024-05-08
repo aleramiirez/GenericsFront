@@ -33,6 +33,7 @@ const API_URL = process.env.API_URL;
 const PORT = process.env.PORT;
 const JWT_SECRET = process.env.JWT_SECRET;
 let authToken;
+let secret2fa;
 
 // ROUTES
 app.get('/login', (req, res) => {
@@ -75,6 +76,7 @@ app.post('/register', async (req, res) => {
 
     if (userData) {
       console.log("Response Data:", userData);
+      secret2fa = userData.secret;
 
       if (checkAuth && userData.secret) {
         // Generamos el URL para el código QR compatible con Google Authenticator
@@ -111,7 +113,17 @@ app.post('/register', async (req, res) => {
     }
   }
 });
+app.post('/check-2fa', async (req, res) => {
+  try {
+    const sec = secret2fa;
+    const otp = req.body.otp;
 
+    const result = await check2FA(sec, otp);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
 app.post('/auth', async (req, res) => {
   try {
     const { email, password, otp } = req.body;
@@ -158,22 +170,31 @@ async function loginWithJwt(correo, contrasena, otp) {
         if (!data.secretImageUri) {
           throw new Error('El servidor no proporcionó el URI de la imagen secreta para 2FA.');
         }
-        
-        const tokenValidates = speakeasy.totp.verify({
-          secret: data.secretImageUri,
-          encoding: 'ascii',
-          token: otp
-        });
 
-        if (!tokenValidates) {
-          throw new Error('Código OTP incorrecto. Por favor, inténtalo de nuevo.');
-        }
+        await check2FA(data.secretImageUri, otp);
       }
 
       const authToken = data.token;
       return authToken;
     } else {
       return null;
+    }
+  } catch (error) {
+    throw new Error('Fallo al iniciar sesión con JWT');
+  }
+}
+async function check2FA(sec, otp) {
+  try {
+    const tokenValidates = speakeasy.totp.verify({
+      secret: sec,
+      encoding: 'ascii',
+      token: otp
+    });
+
+    if (!tokenValidates) {
+      throw new Error('Código OTP incorrecto. Por favor, inténtalo de nuevo.');
+    } else {
+      return tokenValidates;
     }
   } catch (error) {
     throw new Error('Fallo al iniciar sesión con JWT');

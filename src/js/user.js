@@ -406,7 +406,7 @@ function showToast(message) {
       break;
     case 'verificyError':
       toast.classList.add('error');
-      content = '<i class="fa-solid fa-circle-check"></i> Error al verificar usuario';
+      content = '<i class="fa-solid fa-circle-xmark"></i> Error al verificar usuario';
       break;
 
     case 'declineSuccess':
@@ -415,7 +415,7 @@ function showToast(message) {
       break;
     case 'declineError':
       toast.classList.add('error');
-      content = '<i class="fa-solid fa-circle-check"></i> Error al rechazar usuario';
+      content = '<i class="fa-solid fa-circle-xmark"></i> Error al rechazar usuario';
       break;
     case 'verificyInvalid':
       toast.classList.add('invalid');
@@ -446,7 +446,7 @@ function showToast(message) {
       break;
     case 'deleteError':
       toast.classList.add('error');
-      content = '<i class="fa-solid fa-circle-check"></i> Error al eliminar usuario';
+      content = '<i class="fa-solid fa-circle-xmark"></i> Error al eliminar usuario';
       break;
 
     case 'consultSuccess':
