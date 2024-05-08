@@ -192,7 +192,7 @@ async function check2FA(sec, otp) {
     });
 
     if (!tokenValidates) {
-      throw new Error('Código OTP incorrecto. Por favor, inténtalo de nuevo.');
+      return null
     } else {
       return tokenValidates;
     }

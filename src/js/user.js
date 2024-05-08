@@ -272,6 +272,8 @@ function showContent(page) {
         } else {
           // Si no se encontraron usuarios, mostrar un mensaje de error
           showToast('consultInvalid');
+          const dataContainer = document.querySelector('.card-container');
+          dataContainer.innerHTML = '';
         }
       } catch (error) {
         console.error('Error:', error);
@@ -359,6 +361,9 @@ function showContent(page) {
           showToast('verificyError');
         } else {
           showToast('verificySuccess');
+          setTimeout(() => {
+            location.reload();
+          }, 6000);
         }
       } catch (error) {
         console.error('Error al aprobar el usuario:', error);
@@ -380,6 +385,9 @@ function showContent(page) {
             showToast('declineError');
           } else {
             showToast('declineSuccess');
+            setTimeout(() => {
+              location.reload();
+            }, 6000);
           }
         } catch (error) {
           console.error('Error al eliminar el usuario:', error);
@@ -470,4 +478,10 @@ function showToast(message) {
   setTimeout(() => {
     toast.remove();
   }, 6000);
+
+  document.addEventListener('click', function(event) {
+    if (!toast.contains(event.target)) {
+      toast.remove();
+    }
+  });
 }

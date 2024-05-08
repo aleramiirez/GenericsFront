@@ -33,21 +33,19 @@
           </div>
         </nav>
       </header>
-      <div class="content">
+      <div class="container">
+        <div class="form-menu">
+          <div class="form-menu-nav">
+            <a class="form-menu-nav-text" onclick="showContent('prove')">APROBAR</a></li>
+            <a class="form-menu-nav-text" onclick="showContent('create')">CREAR</a></li>
+            <a class="form-menu-nav-text" onclick="showContent('consult')">CONSULTAR</a></li>
+            <a class="form-menu-nav-text" onclick="showContent('edit')">MODIFICAR</a></li>
+            <a class="form-menu-nav-text" onclick="showContent('delete')">ELIMINAR</a></li>
+          </div>  
+        </div>
         <main>
-          <div class="container">
-            <div class="form-menu">
-              <div class="form-menu-nav">
-                <a class="form-menu-nav-text" onclick="showContent('prove')">APROBAR</a></li>
-                <a class="form-menu-nav-text" onclick="showContent('create')">CREAR</a></li>
-                <a class="form-menu-nav-text" onclick="showContent('consult')">CONSULTAR</a></li>
-                <a class="form-menu-nav-text" onclick="showContent('edit')">MODIFICAR</a></li>
-                <a class="form-menu-nav-text" onclick="showContent('delete')">ELIMINAR</a></li>
-              </div>  
-            </div>
-            <div class="form-container" id="formContent">
+          <div class="form-container" id="formContent">
 
-            </div>
           </div>
           <div class="card-container">
             
@@ -56,9 +54,9 @@
               
           </div>
         </main>
-        <footer>
-        </footer>
       </div>
+      <footer>
+      </footer>
     </div>
     <script src="/resources/js/user.js"></script>
     <script src="https://kit.fontawesome.com/dc427c2d29.js" crossorigin="anonymous"></script>
