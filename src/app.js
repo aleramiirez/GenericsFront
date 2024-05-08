@@ -23,8 +23,8 @@ app.use(expressSession({
   resave:true,
   saveUninitialized:true
 }));
-app.use("/resourses", express.static("src"));
-app.use("/resourses", express.static(__dirname + "/src"));
+app.use("/resources", express.static("src"));
+app.use("/resources", express.static(__dirname + "/src"));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
@@ -52,18 +52,12 @@ app.get('/user', (req, res) => {
     res.redirect('/login');
   }
 });
-app.get('/checkRegister', (req, res) => {
-  if (authToken) {
-    res.render('checkRegister');
-  } else {
-    res.redirect('/login');
-  }
-});
-app.get('/registrationSuccess', (req, res) => {
-  res.render('registrationSuccess', { message: 'Registro exitoso, puedes volver a la página de inicio' });
+
+app.get('/test', (req, res) => {
+  res.render('test');
 });
 
-
+// SECURITY
 app.post('/register', async (req, res) => {
   try {
     const { firstName, lastName, email, password, checkAuth } = req.body;
@@ -93,36 +87,30 @@ app.post('/register', async (req, res) => {
         // Generamos el código QR usando el URL generado
         qr.toDataURL(otpAuthUrl, (err, qrCode) => {
           if (err) {
-            console.error('Error al generar el código QR:', err);
-            res.render('check', { message: 'Oops! Algo ha ido mal al generar el código QR' });
+            res.render('check', { message: 'fa2Error' });
           } else {
-            res.render('check', { message: 'Registraste de forma correcta, puedes volver a la página de inicio', qrCode: qrCode });
+            res.render('check', { message: 'fa2Register', qrCode: qrCode });
           }
         });
       } else {
-        // Renderizar la página de registro exitoso sin código QR si el 2FA no está activado o no hay secret
-        res.render('registrationSuccess', { message: 'Registraste de forma correcta, puedes volver a la página de inicio' });
+        res.render('check', { message: 'register' });
       }
     }
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
         console.log('Error interno del servidor: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo' });
+        res.render('check', { message: 'serverError' });
       } else if (error.response.status === 400) {
         console.log('Error interno del cliente: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo' });
-      } else {
-        console.log('Error inesperado: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });  
+        res.render('check', { message: 'clientError' });
       }
     } else {
       console.log('Error inesperado: '+error.message);
-      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo' });
+      res.render('check', { message: 'error' });
     }
   }
 });
-
 
 app.post('/auth', async (req, res) => {
   try {
@@ -133,21 +121,21 @@ app.post('/auth', async (req, res) => {
       res.redirect('/home');
     } else {
       console.log('Código OTP incorrecto. Por favor, inténtalo de nuevo.: '+error.message);
-      throw new Error('Token JWT no recibido');
+      res.render('check', { message: 'authError' });
     }
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 500) {
-        console.log('Error interno del servidor: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal en el servidor, intentalo de nuevo mas tarde!' });
-      } else if (error.response.status === 400) {
-        console.log('Error interno del cliente: '+error.message);
-        res.render('check', { message: 'Oops! Algo ha sido mal en el cliente, intentalo de nuevo mas tarde!' });
+  } catch (err) {
+    if (err.response) {
+      if (err.response.status === 500) {
+        console.log('Error interno del servidor: '+err.message);
+        res.render('check', { message: 'serverError' });
+      } else if (err.response.status === 400) {
+        console.log('Error interno del cliente: '+err.message);
+        res.render('check', { message: 'clientError' });
       }
     } else {
-      console.log('Error inesperado: '+error.message);
-      res.render('check', { message: 'Oops! Algo ha sido mal, intentalo de nuevo mas tarde!' });
-    }  
+      console.log('Error inesperado: '+err.message);
+      res.render('check', { message: 'error' });
+    }
   }
 });
 
@@ -185,13 +173,14 @@ async function loginWithJwt(correo, contrasena, otp) {
       const authToken = data.token;
       return authToken;
     } else {
-      throw new Error('Fallo al iniciar sesión con JWT');
+      return null;
     }
   } catch (error) {
-    throw error;
+    throw new Error('Fallo al iniciar sesión con JWT');
   }
 }
 
+// ENDPOINTS
 app.post('/createUser', async (req, res) => {
   try {
     // Obtener los datos del formulario desde el cuerpo de la solicitud
@@ -287,26 +276,22 @@ app.post('/editUser', async (req, res) => {
 app.post('/deleteUser', async (req, res) => {
   try {
     const email = req.body.email;
-
     // Llamar a la API de SpringBoot para eliminar el usuario
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
-
     // Llamar a la API de SpringBoot para eliminar el usuario
     const response = await axios.delete(`${API_URL}/borrar/${email}`, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
     });
-
     // Verificar si se eliminó correctamente
     if (response.status === 200) {
       res.redirect('/user');
     } else {
       res.status(500).send('Error al eliminar el usuario');
     }
-  
   } catch (error) {
     if (error.response) {
       if (error.response.status === 500) {
@@ -411,17 +396,17 @@ app.post('/checkRegister', async (req, res) => {
     } else {
         res.status(500).send('Error al aprobar el usuario');
     }
-} catch (error) {
-    if (error.response) {
-        if (error.response.status === 500) {
-            res.status(500).send('Error interno del servidor: ' + error.message);
-        } else {
-            res.status(400).send('Error interno del cliente: ' + error.message);
-        }
-    } else {
-        res.status(500).send('Error inesperado: ' + error.message);
-    }
-}
+  } catch (error) {
+      if (error.response) {
+          if (error.response.status === 500) {
+              res.status(500).send('Error interno del servidor: ' + error.message);
+          } else {
+              res.status(400).send('Error interno del cliente: ' + error.message);
+          }
+      } else {
+          res.status(500).send('Error inesperado: ' + error.message);
+      }
+  }
 });
 
 // START SERVER

@@ -157,6 +157,7 @@ form-group input::placeholder {
   box-shadow: 3px 4px 7px -3px #0000001a;
   transition: all 250ms;
   overflow: hidden;
+  cursor: pointer;
 }
 .form-menu-nav-text:hover {
   background-color: #40c9ff;
@@ -172,7 +173,6 @@ form-group input::placeholder {
   gap: 50px;
   margin: 15px auto;
 }
-
 .card {
   display: flex;
   flex-direction: column;
@@ -187,21 +187,17 @@ form-group input::placeholder {
   box-shadow: 5px 5px 15px #bebebe,
             -5px -5px 15px #ffffff;
 }
-
 .heading {
   text-transform: capitalize;
 }
-
 .icon {
   align-items: center;
   margin: 5%;
 }
-
 .card i.fas.fa-user {
   font-size: 100px; 
   color: #000000; 
 }
-
 .card .data {
   flex: 1; 
   display: flex;
@@ -209,39 +205,31 @@ form-group input::placeholder {
   gap: 20px;
   width: 100%;
 }
-
 .card p:not(.heading) {
   font-size: 15px;
 }
-
 .card p:first-child {
   color: #e81cff;
   font-weight: 700;
 }
 
-.btn-circle.btn-lg {
-  width: 50px;
-  height: 50px;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 25px;
-}
+
 .buttons {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10%;
+  padding: 10px;
 }
-#name {
-  margin-bottom: 2%;
+.buttons i {
+  color: #eee;
+  margin: auto;
 }
 #true {
-  background-color: rgb(93, 219, 93);
+  background-color: #00b100;
 }
 #false {
-  background-color: rgb(220, 57, 57);
+  background-color: red;
 }
 .btn-circle.btn-lg {
   width: 40px; 
@@ -249,5 +237,61 @@ form-group input::placeholder {
   padding: 8px 14px; 
   font-size: 16px; 
   line-height: 1.33;
-  border-radius: 20px; 
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+
+#toastBox {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 20px;
+}
+.toast {
+  width: 400px;
+  height: 80px;
+  background: #ffffff;
+  font-weight: 500;
+  margin: 15px 0;
+  box-shadow: 0 0 2px #0000003e;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.toast::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5px;
+  background: green;
+  animation: anim 6s linear forwards;
+}
+@keyframes anim {
+  100% {
+    width: 0;
+  }
+}
+.toast i {
+  margin: 0 20px;
+  font-size: 35px;
+  color: green;
+}
+.toast.error i {
+  color: red;
+}
+.toast.error::after {
+  background: red;
+}
+.toast.invalid i {
+  color: orange;
+}
+.toast.invalid::after {
+  background: orange;
 }

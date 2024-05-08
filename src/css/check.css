@@ -1,3 +1,60 @@
+main {
+  text-align: center;
+}
+main img {
+  width: 50%;
+}
+.loader {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
+}
+.error-code {
+  margin: 0;
+  font-size: 4em;
+}
+.content-error {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 20px;
+}
+.back-button {
+	color: #fff;
+  padding: 10px 20px;
+  background: #40c9ff;
+  margin: 20px 0;
+  display: inline-block;
+  margin: auto;
+}
+
+.clientError {
+  background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+  height: 400px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  margin: auto;
+}
+
+.serverError {
+  background-image: url(https://i.imgur.com/qIufhof.png);
+  height: 400px;
+  width: 80%;
+  background-size: cover;
+  background-position: center;
+  margin: auto;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: auto;
+}
+
+
 .wheel-and-hamster {
   --dur: 1s;
   position: relative;
@@ -6,14 +63,12 @@
   font-size: 14px;
   margin: auto;
 }
-
 .wheel,
 .hamster,
 .hamster div,
 .spoke {
   position: absolute;
 }
-
 .wheel,
 .spoke {
   border-radius: 50%;
@@ -22,12 +77,10 @@
   width: 100%;
   height: 100%;
 }
-
 .wheel {
   background: radial-gradient(100% 100% at center,hsla(0,0%,60%,0) 47.8%,hsl(0,0%,60%) 48%);
   z-index: 2;
 }
-
 .hamster {
   animation: hamster var(--dur) ease-in-out infinite;
   top: 50%;
@@ -38,7 +91,6 @@
   transform-origin: 50% 0;
   z-index: 1;
 }
-
 .hamster__head {
   animation: hamsterHead var(--dur) ease-in-out infinite;
   background: hsl(30,90%,55%);
@@ -51,7 +103,6 @@
   height: 2.5em;
   transform-origin: 100% 50%;
 }
-
 .hamster__ear {
   animation: hamsterEar var(--dur) ease-in-out infinite;
   background: hsl(0,90%,85%);
@@ -63,7 +114,6 @@
   height: 0.75em;
   transform-origin: 50% 75%;
 }
-
 .hamster__eye {
   animation: hamsterEye var(--dur) linear infinite;
   background-color: hsl(0,0%,0%);
@@ -73,7 +123,6 @@
   width: 0.5em;
   height: 0.5em;
 }
-
 .hamster__nose {
   background: hsl(0,90%,75%);
   border-radius: 35% 65% 85% 15% / 70% 50% 50% 30%;
@@ -82,7 +131,6 @@
   width: 0.2em;
   height: 0.25em;
 }
-
 .hamster__body {
   animation: hamsterBody var(--dur) ease-in-out infinite;
   background: hsl(30,90%,90%);
@@ -96,7 +144,6 @@
   transform-origin: 17% 50%;
   transform-style: preserve-3d;
 }
-
 .hamster__limb--fr,
 .hamster__limb--fl {
   clip-path: polygon(0 0,100% 0,70% 80%,60% 100%,0% 100%,40% 80%);
@@ -106,19 +153,16 @@
   height: 1.5em;
   transform-origin: 50% 0;
 }
-
 .hamster__limb--fr {
   animation: hamsterFRLimb var(--dur) linear infinite;
   background: linear-gradient(hsl(30,90%,80%) 80%,hsl(0,90%,75%) 80%);
   transform: rotate(15deg) translateZ(-1px);
 }
-
 .hamster__limb--fl {
   animation: hamsterFLLimb var(--dur) linear infinite;
   background: linear-gradient(hsl(30,90%,90%) 80%,hsl(0,90%,85%) 80%);
   transform: rotate(15deg);
 }
-
 .hamster__limb--br,
 .hamster__limb--bl {
   border-radius: 0.75em 0.75em 0 0;
@@ -129,19 +173,16 @@
   height: 2.5em;
   transform-origin: 50% 30%;
 }
-
 .hamster__limb--br {
   animation: hamsterBRLimb var(--dur) linear infinite;
   background: linear-gradient(hsl(30,90%,80%) 90%,hsl(0,90%,75%) 90%);
   transform: rotate(-25deg) translateZ(-1px);
 }
-
 .hamster__limb--bl {
   animation: hamsterBLLimb var(--dur) linear infinite;
   background: linear-gradient(hsl(30,90%,90%) 90%,hsl(0,90%,85%) 90%);
   transform: rotate(-25deg);
 }
-
 .hamster__tail {
   animation: hamsterTail var(--dur) linear infinite;
   background: hsl(0,90%,85%);
@@ -154,14 +195,11 @@
   transform: rotate(30deg) translateZ(-1px);
   transform-origin: 0.25em 0.25em;
 }
-
 .spoke {
   animation: spoke var(--dur) linear infinite;
   background: radial-gradient(100% 100% at center,hsl(0,0%,60%) 4.8%,hsla(0,0%,60%,0) 5%),
 		linear-gradient(hsla(0,0%,55%,0) 46.9%,hsl(0,0%,65%) 47% 52.9%,hsla(0,0%,65%,0) 53%) 50% 50% / 99% 99% no-repeat;
 }
-
-/* Animations */
 @keyframes hamster {
   from, to {
     transform: rotate(4deg) translate(-0.8em,1.85em);
@@ -249,15 +287,4 @@
   to {
     transform: rotate(-1turn);
   }
-}
-
-.loader {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 100px;
-}
-.loader img {
-  width: 30%;
-  margin: auto;
 }
