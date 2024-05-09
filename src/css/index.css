@@ -36,7 +36,7 @@ ul, ol, li {
 	max-width: 90%;
 }
 main {
-  margin: calc(var(--index) * 4);
+  margin: calc(var(--index) * 2);
 	/* -----  X...AFTER MAIN  ----- */
 	flex: 1 1 auto;
 }
