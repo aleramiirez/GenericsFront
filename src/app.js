@@ -48,7 +48,8 @@ app.get('/home', (req, res) => {
 });
 app.get('/user', (req, res) => {
   if (authToken) {
-    res.render('user');
+    // res.render('user');
+    res.render('test');
   } else {
     res.redirect('/login');
   }
@@ -251,19 +252,21 @@ app.post('/createUser', async (req, res) => {
 app.post('/editUser', async (req, res) => {
   try {
     const email = req.body.email;
-
     // Obtener los datos del formulario desde el cuerpo de la solicitud
-    const { firstName, lastName, age, address, mobile } = req.body;
+    const user = req.body;
 
     // Crear un objeto con los datos actualizados del usuario
     const updatedUser = {
-      nombre: firstName,
-      apellidos: lastName,
-      edad: age,
-      direccion: address,
-      telefono: mobile,
+      nombre: user.firstName,
+      apellidos: user.lastName,
+      edad: user.age,
+      correo: user.email,
+      direccion: user.address,
+      telefono: user.mobile,
     };
 
+    console.log(email, updatedUser);
+    
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
@@ -290,7 +293,7 @@ app.post('/editUser', async (req, res) => {
       }
     } else {
       res.send('Error inesperado: '+error.message);
-    }  
+    }
   }
 });
 

@@ -84,7 +84,7 @@ function showContent(page) {
       content = `
         <form class="form" id="deleteUserForm" action="/deleteUser" method="post">
           <h1>Eliminar Usuario</h1>
-          <div class="input-form form2">
+          <div class="input-form">
               <div class="form-group">
                 <label for="email">Correo</label>
                 <input name="email" id="email" type="email" required>
@@ -238,9 +238,9 @@ function showContent(page) {
           showToast('consultSuccess');
         }
 
-        const userDataArray = await response.json(); // Convertir la respuesta a JSON (un array de usuarios)
+        const usersData = await response.json(); // Convertir la respuesta a JSON (un array de usuarios)
 
-        if (userDataArray.length > 0) {
+        if (usersData.length > 0) {
           // Si se encontraron usuarios, crear las tarjetas dinámicamente y agregarlas al contenedor
           const dataContainer = document.querySelector('.card-container'); // Contenedor de las tarjetas
 
@@ -248,7 +248,7 @@ function showContent(page) {
           dataContainer.innerHTML = '';
 
           // Crear tarjetas para cada usuario
-          userDataArray.forEach(userData => {
+          usersData.forEach(userData => {
             const card = document.createElement('div');
             card.classList.add('card');
 
@@ -300,13 +300,13 @@ function showContent(page) {
           throw new Error('Error al obtener los datos del usuario');
         }
   
-        const userDataArray = await response.json();
+        const usersData = await response.json();
   
-        if (userDataArray.length > 0) {
+        if (usersData.length > 0) {
           const dataContainer = document.querySelector('.card-container');
           dataContainer.innerHTML = '';
   
-          userDataArray.forEach(userData => {
+          usersData.forEach(userData => {
             const card = document.createElement('div');
             card.classList.add('card');
   
