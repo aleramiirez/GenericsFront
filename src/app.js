@@ -255,16 +255,6 @@ app.post('/editUser', async (req, res) => {
     // Obtener los datos del formulario desde el cuerpo de la solicitud
     const user = req.body.data;
 
-    // Crear un objeto con los datos actualizados del usuario
-    const updatedUser = {
-      nombre: user.firstName,
-      apellidos: user.lastName,
-      edad: user.age,
-      correo: user.email,
-      direccion: user.address,
-      telefono: user.mobile,
-    };
-
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
