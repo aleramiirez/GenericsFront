@@ -12,12 +12,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE-edge, chrome1" />
 
     <title>LOGIN</title>
-    <link rel="shortcut icon" href="resourses/lib/img/logo.ico" />
+    <link rel="shortcut icon" href="resources/lib/img/logo.ico" />
     <!-- ------------------------------  LIBRARY  ------------------------------ -->
 
     <!-- ------------------------------  STYLES  ------------------------------ -->
-    <link href="resourses/css/index.css" rel="stylesheet" type="text/css" />
-    <link href="resourses/css/login.css" rel="stylesheet" type="text/css" />
+    <link href="resources/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="resources/css/login.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="wrapper">
@@ -29,22 +29,24 @@
             <h1 class="title">GENERICS</h1>
             <div class="container" id="container">
               <div class="form-container sign-up-container">
-                <form action="/register" method="post">
+                <form class="form" action="/register" method="post">
                   <h1>REGISTRAR</h1>
                   <input name="firstName" id="firstName" type="text" placeholder="Nombre" required/>
                   <input name="lastName" id="lastName" type="text" placeholder="Apellidos" required/>
                   <input name="email" id="email" type="email" placeholder="Correo" required/>
                   <input name="password" id="password" type="password" placeholder="Contraseña" required/>
-                  <p id="txt2fa">Doble Autenticacion:</p>
-                  <label class="switch">
-                    <input type="checkbox" name="checkAuth" class="checkbox" value="true">
-                    <div class="slider"></div>
-                  </label>
+                  <section class="">
+                    <label class="switch">
+                      <p>Doble Autenticacion:</p>
+                      <input type="checkbox" name="checkAuth" class="checkbox" value="true">
+                      <div class="slider"></div>
+                    </label>
+                  </section>
                   <button>Crear</button>
                 </form>
               </div>
               <div class="form-container sign-in-container">
-                <form action="/auth" method="post">
+                <form class="form" action="/auth" method="post">
                   <h1>INICIAR SESION</h1>
                   <input name="email" id="email" type="email" placeholder="Correo" required/>
                   <input name="password" id="password" type="password" placeholder="Contraseña" required/>
@@ -74,6 +76,6 @@
         </footer>
       </div>
     </div>
-    <script src="/resourses/js/login.js"></script>
+    <script src="/resources/js/login.js"></script>
   </body>
 </html>
