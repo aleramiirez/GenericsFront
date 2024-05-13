@@ -3,4 +3,4 @@ WORKDIR /src
 COPY . /src
 RUN npm install
 EXPOSE 3000
-CMD node app.js
+CMD ["node", "src/app.js"]
