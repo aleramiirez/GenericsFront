@@ -49,7 +49,7 @@ app.get('/home', (req, res) => {
 app.get('/user', (req, res) => {
   if (authToken) {
     // res.render('user');
-    res.render('test');
+    res.render('user');
   } else {
     res.redirect('/login');
   }
@@ -253,7 +253,7 @@ app.post('/editUser', async (req, res) => {
   try {
     const email = req.body.email;
     // Obtener los datos del formulario desde el cuerpo de la solicitud
-    const user = req.body;
+    const user = req.body.data;
 
     // Crear un objeto con los datos actualizados del usuario
     const updatedUser = {
@@ -265,14 +265,12 @@ app.post('/editUser', async (req, res) => {
       telefono: user.mobile,
     };
 
-    console.log(email, updatedUser);
-    
     if (!authToken) {
       return res.status(401).send('No autorizado. Por favor, autentícate primero.');
     }
 
     // Llamar a la API de SpringBoot para editar el usuario
-    const response = await axios.put(`${API_URL}/editar/${email}`, updatedUser, {
+    const response = await axios.put(`${API_URL}/editar/${email}`, user, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
