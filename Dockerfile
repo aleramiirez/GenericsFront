@@ -1,6 +1,6 @@
 FROM node:slim
-WORKDIR /app
-COPY . /app
+WORKDIR /src
+COPY . /src
 RUN npm install
 EXPOSE 3000
-CMD node index.js
+CMD node app.js
