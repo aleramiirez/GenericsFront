@@ -1,0 +1,24 @@
+  name: Node CI with Maven
+
+  on:
+    push:
+      branches: ['main']
+    pull_request:
+      branches: ['main']
+
+  jobs:
+    build:
+
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Check out the repository
+          uses: actions/checkout@v4
+
+        - name: Log in to Docker Hub
+          run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u aleramiirez --password-stdin
+
+        - name: Build and push Docker images for api-gateway
+          run: |
+            docker build -t aleramiirez/generics:generics-front .
+            docker push aleramiirez/generics:generics-front
