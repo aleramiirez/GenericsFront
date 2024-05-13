@@ -47,7 +47,6 @@ function showContent(page) {
       content = `
         <form class="form" id="searchForm" action="/getUser" method="post">
           <h1>Editar Usuario</h1>
-<<<<<<< HEAD
           <div class="input-form form-edit">
             <div class="form-group">
               <label for="email">Correo del usuario a editar</label>
@@ -55,12 +54,10 @@ function showContent(page) {
             </div>
             <div class="form-group">
               <button type="submit" class="form-submit-btn">Buscar</button>
-=======
           <div class="input-form">
             <div class="form__group field">
               <input name="email" id="email" type="email" class="form__field" placeholder="" required>
               <label for="email" class="form__label">Correo del usuario</label>
->>>>>>> 5c6ce6937c60bf28b7463b239faa40e460a48800
             </div>
             <div class="form__group field">
             <input name="firstName" id="firstName" type="text" class="form__field" placeholder="" required>
@@ -91,7 +88,6 @@ function showContent(page) {
       content = `
         <form class="form" id="deleteUserForm" action="/deleteUser" method="post">
           <h1>Eliminar Usuario</h1>
-<<<<<<< HEAD
           <div class="input-form form-delete">
               <div class="form-group">
                 <label for="email">Correo</label>
@@ -100,13 +96,11 @@ function showContent(page) {
               <div class="form-group">
                 <button type="submit" class="form-submit-btn">Eliminar</button>
               </div>
-=======
           <div class="input-form form2">
             <div class="form__group field">
               <input name="email" id="email" type="email" class="form__field" placeholder="" required>
               <label for="email" class="form__label">Correo</label>
             </div>
->>>>>>> 5c6ce6937c60bf28b7463b239faa40e460a48800
           </div>
         </form>
         `;
