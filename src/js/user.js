@@ -399,12 +399,15 @@ function showContent(page) {
         if (usersData.length > 0) {
           const dataContainer = document.querySelector('.data');
           dataContainer.innerHTML = '';
+        
           // Crear el contenedor de la tabla
           const tableContainer = document.createElement('div');
           tableContainer.classList.add('tableContainer');
+        
           // Crear la tabla
           const table = document.createElement('table');
           table.id = 'userData';
+        
           // Crear el encabezado de la tabla
           const thead = document.createElement('thead');
           thead.innerHTML = `
@@ -416,9 +419,11 @@ function showContent(page) {
             </tr>
           `;
           table.appendChild(thead);
+        
           // Crear el cuerpo de la tabla
           const tbody = document.createElement('tbody');
           tbody.id = 'userDataBody';
+        
           // Agregar filas para cada usuario
           usersData.forEach(user => {
             const row = document.createElement('tr');
@@ -426,34 +431,44 @@ function showContent(page) {
               <td>${user.nombre}</td>
               <td>${user.apellidos}</td>
               <td>${user.correo}</td>
-              <div class="buttons">
-                <button type="button" id="true" class="form-submit-btn"><i class="fas fa-check"></i></button>
-                <button type="button" id="false" class="form-submit-btn"><i class="fas fa-times"></i></button>
-              </div>
+              <td class="buttons">
+                <button type="button" id="true" class="true form-submit-btn"><i class="fas fa-check"></i></button>
+                <button type="button" id="false" class="false form-submit-btn"><i class="fas fa-times"></i></button>
+              </td>
             `;
             tbody.appendChild(row);
-            // Agregar evento de clic al botón con id "true"
-            const approveButton = tbody.querySelector('#true');
-            approveButton.addEventListener('click', () => {
-              // Llamar a la función para aprobar el usuario
-              checkRegister(user.correo);
-            });
-            // Agregar evento de clic al botón con id "false"
-            const deleteButton = tbody.querySelector('#false');
-            deleteButton.addEventListener('click', () => {
-              // Llamar a la función para eliminar el usuario
-              deleteUser(user.correo);
-            });
           });
+        
           // Agregar el cuerpo de la tabla a la tabla
           table.appendChild(tbody);
+        
           // Agregar la tabla al contenedor de la tabla
           tableContainer.appendChild(table);
+        
           // Agregar el contenedor de la tabla al contenedor de datos
-          dataContainer.appendChild(tableContainer); 
+          dataContainer.appendChild(tableContainer);
+        
+          // Agregar evento de clic a los botones de aprobación
+          const approveButtons = document.querySelectorAll('.true');
+          approveButtons.forEach(button => {
+            button.addEventListener('click', () => {
+              const email = button.parentElement.previousElementSibling.textContent;
+              checkRegister(email);
+            });
+          });
+        
+          // Agregar evento de clic a los botones de eliminación
+          const deleteButtons = document.querySelectorAll('.false');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', () => {
+              const email = button.parentElement.previousElementSibling.textContent;
+              deleteUser(email);
+            });
+          });
         } else {
           showToast('verificyInvalid');
         }
+        
       } catch (error) {
         console.error('Error:', error);
       }
