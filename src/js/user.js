@@ -9,34 +9,34 @@ function showContent(page) {
       <form class="form" id="createUserForm" action="/createUser" method="post">
         <h1>Crear Usuario</h1>
           <div class="input-form">
-            <div class="form__group field">
-              <input name="firstName" id="firstName" type="text" class="form__field" placeholder="" required>
-              <label for="firstName" class="form__label">Nombre</label>
+            <div class="form-group">
+              <label for="firstName">Nombre</label>
+              <input name="firstName" id="firstName" type="text" required>
             </div>
-            <div class="form__group field">
-              <input name="lastName" id="lastName" type="text" class="form__field" placeholder="" required>
-              <label for="lastName" class="form__label">Apellidos</label>
-            </div>
-            <div class="form__group field">
-              <input name="age" id="age" type="number" class="form__field" placeholder="" required>
-              <label for="age" class="form__label">Edad</label>
-            </div>
-            <div class="form__group field">
-              <input name="email" id="email" type="email" class="form__field" placeholder="" required>
-              <label for="email" class="form__label">Correo</label>
-            </div>
-            <div class="form__group field">
-              <input name="address" id="address" type="text" class="form__field" placeholder="" required>
-              <label for="address" class="form__label">Dirección</label>
-            </div>
-            <div class="form__group field">
-              <input name="mobile" id="mobile" type="number" class="form__field" placeholder="" required>
-              <label for="mobile" class="form__label">Teléfono</label>
-            </div>
-            <div class="form__group field">
-              <input name="password" id="password" type="password" class="form__field" placeholder="" required>
-              <label for="password" class="form__label">Contraseña</label>
-            </div>
+          <div class="form-group">
+            <label for="lastName">Apellidos</label>
+            <input name="lastName" id="lastName" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="age">Edad</label>
+            <input name="age" id="age" type="number" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Correo</label>
+            <input name="email" id="email" type="email" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Direccion</label>
+            <input name="address" id="address" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="mobile">Telefono</label>
+            <input name="mobile" id="mobile" type="number" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input name="password" id="password" type="password" required>
+          </div>
         </div>
         <button type="submit" class="form-submit-btn">Crear</button>
       </form>
@@ -54,31 +54,7 @@ function showContent(page) {
             </div>
             <div class="form-group">
               <button type="submit" class="form-submit-btn">Buscar</button>
-          <div class="input-form">
-            <div class="form__group field">
-              <input name="email" id="email" type="email" class="form__field" placeholder="" required>
-              <label for="email" class="form__label">Correo del usuario</label>
             </div>
-            <div class="form__group field">
-            <input name="firstName" id="firstName" type="text" class="form__field" placeholder="" required>
-            <label for="firstName" class="form__label">Nombre</label>
-          </div>
-          <div class="form__group field">
-            <input name="lastName" id="lastName" type="text" class="form__field" placeholder="" required>
-            <label for="lastName" class="form__label">Apellidos</label>
-          </div>
-          <div class="form__group field">
-            <input name="age" id="age" type="number" class="form__field" placeholder="" required>
-            <label for="age" class="form__label">Edad</label>
-          </div>
-          <div class="form__group field">
-            <input name="address" id="address" type="text" class="form__field" placeholder="" required>
-            <label for="address" class="form__label">Dirección</label>
-          </div>
-          <div class="form__group field">
-            <input name="mobile" id="mobile" type="number" class="form__field" placeholder="" required>
-            <label for="mobile" class="form__label">Teléfono</label>
-          </div>
           </div>
         </form>
         `;
@@ -96,11 +72,6 @@ function showContent(page) {
               <div class="form-group">
                 <button type="submit" class="form-submit-btn">Eliminar</button>
               </div>
-          <div class="input-form form2">
-            <div class="form__group field">
-              <input name="email" id="email" type="email" class="form__field" placeholder="" required>
-              <label for="email" class="form__label">Correo</label>
-            </div>
           </div>
         </form>
         `;

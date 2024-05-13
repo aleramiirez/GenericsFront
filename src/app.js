@@ -54,7 +54,6 @@ app.get('/user', (req, res) => {
     res.redirect('/login');
   }
 });
-
 app.get('/test', (req, res) => {
   res.render('test');
 });
