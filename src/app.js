@@ -422,6 +422,6 @@ app.post('/checkRegister', async (req, res) => {
 
 // START SERVER
 app.listen(PORT, (reg, res) => {
-  console.log("Server host is http://localhost:"+PORT + "/login");
+  console.log("Server host is http://20.229.96.216:"+PORT + "/login");
   console.log("API URL is " + API_URL);
 })
