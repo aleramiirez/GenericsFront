@@ -71,7 +71,7 @@ app.post('/register', async (req, res) => {
       mfaEnabled: checkAuth
     };
 
-    const response = await axios.post(`http://api-gateway:8084/auth/register`, newUser);
+    const response = await axios.post(`http://nlb-service.genericsspace.svc.cluster.local:8084/auth/register`, newUser);
     const userData = response.data;
 
     if (userData) {
@@ -153,7 +153,7 @@ app.post('/auth', async (req, res) => {
 
 async function loginWithJwt(correo, contrasena, otp) {
   try {
-    const response = await axios.post("http://api-gateway:8084/auth/login", {
+    const response = await axios.post("http://nlb-service.genericsspace.svc.cluster.local:8084/auth/login", {
       correo: correo,
       contrasena: contrasena
     }, {
