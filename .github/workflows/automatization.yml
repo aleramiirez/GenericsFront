@@ -15,10 +15,10 @@
         - name: Check out the repository
           uses: actions/checkout@v4
 
-        - name: Log in to Docker Hub
-          run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u aleramiirez --password-stdin
+        - name: Login Azure
+          run: docker login genericsrepository.azurecr.io -u genericsrepository -p sNVjOmpVKPPmEbqERoC7sNDfBaiBF9DqQBUZC3tHol+ACRDFOcuS
 
-        - name: Build and push Docker images for api-gateway
+        - name: Build and push Docker images for api-gateway to azure
           run: |
-            docker build -t aleramiirez/generics:generics-front .
-            docker push aleramiirez/generics:generics-front
+            docker build -t genericsrepository.azurecr.io/generics:generics-front .
+            docker push genericsrepository.azurecr.io/generics:generics-front
