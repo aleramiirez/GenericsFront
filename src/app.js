@@ -124,6 +124,7 @@ app.post('/check-2fa', async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 });
+
 app.post('/auth', async (req, res) => {
   try {
     const { email, password, otp } = req.body;
