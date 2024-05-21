@@ -33,6 +33,5 @@ jobs:
 
       - name: Build and push Docker images for generics-front
         run: |
-          cd api-gateway
           docker build -t aleramiirez/generics:generics-front .
           docker push aleramiirez/generics:generics-front
